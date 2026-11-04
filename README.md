@@ -199,7 +199,8 @@ Written by Claude Opus 5.5 from roughly 75 prompts with moderate guidance.
 It was checked against yew's behavior with browser tests (`tests_app/run.sh`,
 in headless Chromium), native tests (`cargo test --workspace`), regression
 tests for bugs from yew's issue tracker, a differential test of the router
-against `route-recognizer`, and by porting a large yew app.
+against `route-recognizer`, and by porting a
+[large yew app](https://voxmaxa.com).
 
 ## ⚖️ License
 
