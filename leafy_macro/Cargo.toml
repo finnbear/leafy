@@ -1,0 +1,20 @@
+[package]
+name = "leafy_macro"
+description = "Procedural macros (html!, Properties, function_component) for leafy."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[lib]
+proc-macro = true
+
+[dependencies]
+proc-macro2 = "1"
+quote = "1"
+syn = { version = "2", features = ["full", "extra-traits"] }
+proc-macro-crate = "3"
+# Parses `css!` as stylist parses its `css!` (at compile time only).
+stylist-core = { version = "0.15.1", features = ["parser", "__proc_macro_workaround"] }

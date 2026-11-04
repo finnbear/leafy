@@ -1,0 +1,8 @@
+[unstable]
+build-std = ["core", "alloc", "panic_abort", "std", "proc_macro", "compiler_builtins"]
+
+[target.wasm32-unknown-unknown]
+rustflags = ["--cfg=web_sys_unstable_apis", "-C", "target-feature=-reference-types"]
+
+[build]
+target = "wasm32-unknown-unknown"

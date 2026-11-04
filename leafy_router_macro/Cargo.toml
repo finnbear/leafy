@@ -1,0 +1,18 @@
+[package]
+name = "leafy_router_macro"
+description = "The Routable derive for leafy_router (a port of yew-router-macro 0.20)."
+version.workspace = true
+edition = "2021"
+license.workspace = true
+authors = ["yew-router authors", "Claude Code", "Finn Bear"]
+repository.workspace = true
+rust-version.workspace = true
+
+[lib]
+proc-macro = true
+
+[dependencies]
+proc-macro2 = "1"
+quote = "1"
+syn = { version = "2", features = ["full", "extra-traits"] }
+proc-macro-crate = "3"

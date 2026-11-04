@@ -1,0 +1,5 @@
+rand = "0.9"
+getrandom = { version = "0.3", features = ["wasm_js"] }
+gloo = "0.11"
+log = "0.4"
+wasm-logger = "0.2"

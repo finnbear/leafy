@@ -1,0 +1,56 @@
+[package]
+name = "leafy"
+description = "A yew-compatible web UI library without a virtual DOM, optimized for WebAssembly binary size."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+readme = "../README.md"
+keywords = ["web", "wasm", "ui", "yew", "frontend"]
+categories = ["web-programming", "wasm", "gui"]
+
+[dependencies]
+leafy_macro = { path = "../leafy_macro", version = "0.1.0" }
+wasm-bindgen = "0.2.117"
+wasm-bindgen-futures = "0.4"
+js-sys = "0.3.94"
+# (With the features yew enables, which code written for yew may rely on.)
+web-sys = { version = "0.3.94", features = [
+    "AddEventListenerOptions",
+    "AnimationEvent",
+    "Comment",
+    "Document",
+    "DocumentFragment",
+    "DragEvent",
+    "Element",
+    "ErrorEvent",
+    "Event",
+    "EventInit",
+    "EventTarget",
+    "FocusEvent",
+    "HtmlCollection",
+    "HtmlElement",
+    "HtmlInputElement",
+    "HtmlScriptElement",
+    "HtmlTemplateElement",
+    "HtmlTextAreaElement",
+    "InputEvent",
+    "InputEventInit",
+    "KeyboardEvent",
+    "Location",
+    "MouseEvent",
+    "Node",
+    "NodeList",
+    "PointerEvent",
+    "ProgressEvent",
+    "ShadowRoot",
+    "SubmitEvent",
+    "Text",
+    "TouchEvent",
+    "TransitionEvent",
+    "UiEvent",
+    "WheelEvent",
+    "Window",
+] }

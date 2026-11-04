@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 460" width="760" height="460" role="img" aria-labelledby="t d" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+<title id="t">Server-rendering time: leafy and yew</title>
+<desc id="d">1,000-row table: leafy 147 µs, yew 1.33 ms; 100 components: leafy 93 µs, yew 604 µs; An article: leafy 60 µs, yew 210 µs</desc>
+<style>
+  .surface { fill: #fcfcfb; }
+  .ink { fill: #0b0b0b; }
+  .ink2 { fill: #52514e; }
+  .muted { fill: #898781; }
+  .grid { stroke: #e1e0d9; stroke-width: 1; }
+  .axis { stroke: #c3c2b7; stroke-width: 1; }
+  .leafy { fill: #2a78d6; }
+  .yew { fill: #eb6834; }
+  .bar:hover path { opacity: 0.85; }
+  @media (prefers-color-scheme: dark) {
+    .surface { fill: #1a1a19; }
+    .ink { fill: #f0efec; }
+    .ink2 { fill: #c3c2b7; }
+    .grid { stroke: #2c2c2a; }
+    .axis { stroke: #383835; }
+    .leafy { fill: #3987e5; }
+    .yew { fill: #d95926; }
+  }
+</style>
+<rect class="surface" width="760" height="460" rx="8"/>
+<text class="ink" x="24" y="32" font-size="17" font-weight="600">Server-rendering time: leafy and yew</text>
+<text class="ink2" x="24" y="54" font-size="13">Median time to render each scene to a string (natively, one core, release build). Shorter is better.</text>
+<rect class="leafy" x="24" y="72" width="12" height="12" rx="2"/>
+<text class="ink2" x="42" y="82" font-size="12">leafy</text>
+<rect class="yew" x="99" y="72" width="12" height="12" rx="2"/>
+<text class="ink2" x="117" y="82" font-size="12">yew</text>
+<line class="grid" x1="76" y1="390" x2="736" y2="390"/>
+<text class="muted" x="68" y="394" font-size="12" text-anchor="end">0</text>
+<line class="grid" x1="76" y1="294.6666666666667" x2="736" y2="294.6666666666667"/>
+<text class="muted" x="68" y="298.6666666666667" font-size="12" text-anchor="end">500 µs</text>
+<line class="grid" x1="76" y1="199.33333333333334" x2="736" y2="199.33333333333334"/>
+<text class="muted" x="68" y="203.33333333333334" font-size="12" text-anchor="end">1 ms</text>
+<line class="grid" x1="76" y1="104" x2="736" y2="104"/>
+<text class="muted" x="68" y="108" font-size="12" text-anchor="end">1.5 ms</text>
+<line class="axis" x1="76" y1="390" x2="736" y2="390"/>
+<g class="bar"><title>1,000-row table, leafy: 147 µs per render (246,426 bytes of HTML)</title>
+<path class="leafy" d="M129,390 V365.9434 Q129,361.9434 133,361.9434 H181 Q185,361.9434 185,365.9434 V390 Z"/></g>
+<text class="ink2" x="157" y="355.9" font-size="12" text-anchor="middle">147 µs</text>
+<g class="bar"><title>1,000-row table, yew: 1.33 ms per render (246,426 bytes of HTML)</title>
+<path class="yew" d="M187,390 V141.07685333333336 Q187,137.07685333333336 191,137.07685333333336 H239 Q243,137.07685333333336 243,141.07685333333336 V390 Z"/></g>
+<text class="ink2" x="215" y="131.1" font-size="12" text-anchor="middle">1.33 ms</text>
+<text class="ink" x="186" y="410" font-size="12.5" font-weight="600" text-anchor="middle">1,000-row table</text>
+<text class="muted" x="186" y="427" font-size="11" text-anchor="middle">js-framework-benchmark's rows</text>
+<g class="bar"><title>100 components, leafy: 93 µs per render (46,349 bytes of HTML)</title>
+<path class="leafy" d="M349,390 V376.2146133333333 Q349,372.2146133333333 353,372.2146133333333 H401 Q405,372.2146133333333 405,376.2146133333333 V390 Z"/></g>
+<text class="ink2" x="377" y="366.2" font-size="12" text-anchor="middle">93 µs</text>
+<g class="bar"><title>100 components, yew: 604 µs per render (46,605 bytes of HTML)</title>
+<path class="yew" d="M407,390 V278.92313333333334 Q407,274.92313333333334 411,274.92313333333334 H459 Q463,274.92313333333334 463,278.92313333333334 V390 Z"/></g>
+<text class="ink2" x="435" y="268.9" font-size="12" text-anchor="middle">604 µs</text>
+<text class="ink" x="406" y="410" font-size="12.5" font-weight="600" text-anchor="middle">100 components</text>
+<text class="muted" x="406" y="427" font-size="11" text-anchor="middle">the synthetic app's, with a context</text>
+<g class="bar"><title>An article, leafy: 60 µs per render (54,223 bytes of HTML)</title>
+<path class="leafy" d="M569,390 V382.5504666666667 Q569,378.5504666666667 573,378.5504666666667 H621 Q625,378.5504666666667 625,382.5504666666667 V390 Z"/></g>
+<text class="ink2" x="597" y="372.6" font-size="12" text-anchor="middle">60 µs</text>
+<g class="bar"><title>An article, yew: 210 µs per render (54,223 bytes of HTML)</title>
+<path class="yew" d="M627,390 V353.86657333333335 Q627,349.86657333333335 631,349.86657333333335 H679 Q683,349.86657333333335 683,353.86657333333335 V390 Z"/></g>
+<text class="ink2" x="655" y="343.9" font-size="12" text-anchor="middle">210 µs</text>
+<text class="ink" x="626" y="410" font-size="12.5" font-weight="600" text-anchor="middle">An article</text>
+<text class="muted" x="626" y="427" font-size="11" text-anchor="middle">50 sections of text, links and lists</text>
+</svg>

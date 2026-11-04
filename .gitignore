@@ -1,0 +1,5 @@
+target/
+dist/
+*.br
+bench/out/
+bench/app/src/generated.rs

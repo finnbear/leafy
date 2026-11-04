@@ -1,0 +1,13 @@
+[workspace]
+resolver = "2"
+members = ["leafy", "leafy_macro", "leafy_router", "leafy_router_macro", "examples/counter"]
+exclude = ["bench"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+authors = ["Claude Code", "Finn Bear"]
+repository = "https://github.com/finnbear/leafy"
+# (let chains)
+rust-version = "1.88"

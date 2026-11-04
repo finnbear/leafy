@@ -1,0 +1,5 @@
+# Built with build-std (see .cargo/config.toml), which needs nightly.
+[toolchain]
+channel = "nightly-2026-03-01"
+targets = [ "wasm32-unknown-unknown", "x86_64-unknown-linux-gnu" ]
+components = [ "rust-src" ]
