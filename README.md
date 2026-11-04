@@ -1,5 +1,9 @@
 # 🍃 leafy
 
+[![crates.io](https://img.shields.io/crates/v/leafy.svg)](https://crates.io/crates/leafy)
+[![docs.rs](https://docs.rs/leafy/badge.svg)](https://docs.rs/leafy)
+[![CI](https://github.com/finnbear/leafy/actions/workflows/ci.yml/badge.svg)](https://github.com/finnbear/leafy/actions/workflows/ci.yml)
+
 A Rust web UI library that implements a subset of [yew](https://yew.rs)
 without a virtual DOM, producing much smaller (and often faster)
 WebAssembly binaries.
