@@ -12,7 +12,7 @@ keywords = ["web", "wasm", "ui", "yew", "frontend"]
 categories = ["web-programming", "wasm", "gui"]
 
 [dependencies]
-leafy_macro = { path = "../leafy_macro", version = "0.1.1" }
+leafy_macro = { path = "../leafy_macro", version = "0.1.2" }
 wasm-bindgen = "0.2.117"
 wasm-bindgen-futures = "0.4"
 js-sys = "0.3.94"

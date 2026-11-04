@@ -226,3 +226,48 @@ pub async fn test_range_value() -> TestResult {
     eq!(input("#check").checked(), true);
     Ok(())
 }
+
+// A camelCase SVG element written as is (yew needed `<@{"clipPath"}>`): the
+// HTML parser keeps its case, in the SVG namespace. And optional children.
+#[derive(Properties, PartialEq)]
+struct MaybeProps {
+    #[prop_or_default]
+    children: Option<Children>,
+}
+
+#[function_component(Maybe)]
+fn maybe(p: &MaybeProps) -> Html {
+    match &p.children {
+        Some(children) => html! { <b id="some">{children.clone()}</b> },
+        None => html! { <i id="none"/> },
+    }
+}
+
+#[function_component(SvgCase)]
+fn svg_case() -> Html {
+    html! {
+        <div>
+            <svg><defs><clipPath id="clip" clipPathUnits="userSpaceOnUse"><path d="M 0,0"/></clipPath></defs></svg>
+            <Maybe>{"x"}</Maybe>
+            <Maybe/>
+        </div>
+    }
+}
+
+pub async fn test_svg_case() -> TestResult {
+    let el = mount::<SvgCase>(());
+    tick().await;
+    let clip = q(&el, "#clip");
+    eq!(clip.tag_name(), "clipPath");
+    eq!(
+        clip.namespace_uri(),
+        Some("http://www.w3.org/2000/svg".to_owned())
+    );
+    eq!(
+        clip.get_attribute("clipPathUnits"),
+        Some("userSpaceOnUse".to_owned())
+    );
+    eq!(q(&el, "#some").text_content(), Some("x".to_owned()));
+    eq!(q(&el, "#none").tag_name(), "I");
+    Ok(())
+}

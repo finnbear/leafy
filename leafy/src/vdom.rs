@@ -117,6 +117,15 @@ impl IntoPropValue<Children> for Html {
     }
 }
 
+/// For a component whose `children` are optional (`Option<Children>`): given,
+/// they're `Some`.
+impl IntoPropValue<Option<Children>> for Html {
+    #[inline]
+    fn into_prop_value(self) -> Option<Children> {
+        Some(Children(self))
+    }
+}
+
 impl IntoPropValue<Html> for Children {
     #[inline]
     fn into_prop_value(self) -> Html {

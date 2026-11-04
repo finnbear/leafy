@@ -959,6 +959,7 @@ async fn run() {
         ("raw_svg", Box::pin(review::test_raw_svg())),
         ("parser", Box::pin(review::test_parser())),
         ("range_value", Box::pin(review::test_range_value())),
+        ("svg_case", Box::pin(review::test_svg_case())),
         ("reentrant", Box::pin(regressions::test_reentrant())),
         (
             "duplicate_keys",

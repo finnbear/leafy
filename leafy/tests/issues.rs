@@ -651,3 +651,31 @@ fn prop_evaluation_order() {
         "<input class=\"class\" min=\"min\" max=\"max\" value=\"value\">"
     );
 }
+
+// Optional children (`children: Option<Children>`), as yew allows; and a
+// camelCase SVG element (`<clipPath>`) written as is.
+#[test]
+fn optional_children_and_svg_case() {
+    #[derive(Properties, PartialEq)]
+    struct P {
+        #[prop_or_default]
+        children: Option<Children>,
+    }
+    #[function_component(Maybe)]
+    fn maybe(p: &P) -> Html {
+        match &p.children {
+            Some(children) => html! { <b>{children.clone()}</b> },
+            None => html! { <i/> },
+        }
+    }
+    assert_eq!(
+        render_html(html! { <><Maybe>{"x"}</Maybe><Maybe/></> }),
+        "<b>x</b><i></i>"
+    );
+    assert_eq!(
+        render_html(
+            html! { <svg><defs><clipPath id="c"><path d="M 0,0"/></clipPath></defs></svg> }
+        ),
+        "<svg><defs><clipPath id=\"c\"><path d=\"M 0,0\"></path></clipPath></defs></svg>"
+    );
+}
