@@ -578,3 +578,107 @@ pub fn use_effect<T: TearDown, F: FnOnce() -> T + 'static>(f: F) {
         eq: None,
     }));
 }
+
+// -------------------------------------------------------------- use_pending
+
+/// The handle returned by [`use_pending`]: dereferences to the value to
+/// show (as of the render it was returned by).
+pub struct UsePendingHandle<T> {
+    value: T,
+    pending: bool,
+    pick: UseStateSetter<Option<T>>,
+}
+
+impl<T: Clone> Clone for UsePendingHandle<T> {
+    fn clone(&self) -> Self {
+        Self {
+            value: self.value.clone(),
+            pending: self.pending,
+            pick: self.pick.clone(),
+        }
+    }
+}
+
+impl<T> Deref for UsePendingHandle<T> {
+    type Target = T;
+    fn deref(&self) -> &T {
+        &self.value
+    }
+}
+
+impl<T: PartialEq> PartialEq for UsePendingHandle<T> {
+    fn eq(&self, other: &Self) -> bool {
+        self.value == other.value && self.pending == other.pending && self.pick == other.pick
+    }
+}
+
+impl<T: fmt::Debug> fmt::Debug for UsePendingHandle<T> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        self.value.fmt(f)
+    }
+}
+
+impl<T: PartialEq + 'static> UsePendingHandle<T> {
+    /// The user's choice: shown (and re-rendered) while busy. Become busy in
+    /// the same event (e.g. as saving starts), or it's forgotten.
+    ///
+    /// (It's forgotten when a render sees `busy` false: if `busy` becomes
+    /// false and true again before rendering, e.g. as one save ends and
+    /// another starts, it's still shown.)
+    pub fn set(&self, value: T) {
+        self.pick.set(Some(value));
+    }
+
+    /// Whether the value shown is the user's choice, not the saved value.
+    pub fn is_pending(&self) -> bool {
+        self.pending
+    }
+}
+
+/// The value to show for `saved` (e.g. a value on a server) in a control
+/// the user changes: while `busy` (saving a change, until `saved` is up to
+/// date), the one the user last chose ([`UsePendingHandle::set`]);
+/// otherwise `saved`. A control whose value is applied on every render (a
+/// `<select>`'s `selected` options, an `<input>`'s `value`) then shows the
+/// user's choice while it's saved, rather than the old value, and whatever
+/// was saved after.
+///
+/// ```ignore
+/// let saving = use_state(|| false);
+/// let shown = use_pending(&saved_region, *saving);
+/// let oninput = {
+///     let (shown, saving) = (shown.clone(), saving.clone());
+///     Callback::from(move |region| {
+///         shown.set(region);
+///         saving.set(true);
+///         // When done (saved or not), and `saved_region` is up to date:
+///         // `saving.set(false)`.
+///         save(region);
+///     })
+/// };
+/// // `selected={*shown == region}`
+/// ```
+///
+/// (An extension: yew has no equivalent.)
+pub fn use_pending<T: Clone + PartialEq + 'static>(saved: &T, busy: bool) -> UsePendingHandle<T> {
+    let pick = use_state_eq(|| None::<T>);
+    let pending = busy && pick.is_some();
+    {
+        // Forgotten when not busy (so as not to show when busy again, with
+        // another change). (Setting it to `None` again does nothing.)
+        let setter = pick.setter();
+        use_effect_with((busy, pick.is_some()), move |&(busy, _)| {
+            if !busy {
+                setter.set(None);
+            }
+        });
+    }
+    UsePendingHandle {
+        value: match &*pick {
+            Some(pick) if busy => pick.clone(),
+            _ => saved.clone(),
+        },
+        pending,
+        pick: pick.setter(),
+    }
+}

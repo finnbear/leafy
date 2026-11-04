@@ -110,3 +110,34 @@ fn early_return() -> Html {
 fn ssr_early_return_in_hole() {
     assert_eq!(render::<EarlyReturn>(()), "<p>ab<i>123</i>c</p>");
 }
+
+#[derive(Properties, PartialEq)]
+struct LinkProps {
+    #[prop_or_default]
+    children: Children,
+}
+
+#[function_component(Link)]
+fn link(props: &LinkProps) -> Html {
+    html! { <a href="#l">{props.children.clone()}</a> }
+}
+
+// Keys on elements other than roots, and an `<a>` component in SVG.
+#[function_component(Keys)]
+fn keys() -> Html {
+    html! {
+        <div>
+            <span key="a" class="x">{1}</span>
+            <><b key="b"/><i/></>
+            <svg><Link><circle r="1"/></Link><title>{"t"}</title></svg>
+        </div>
+    }
+}
+
+#[test]
+fn ssr_nested_keys_and_ambiguous() {
+    assert_eq!(
+        render::<Keys>(()),
+        r##"<div><span class="x">1</span><b></b><i></i><svg><a href="#l"><circle r="1"></circle></a><title>t</title></svg></div>"##
+    );
+}

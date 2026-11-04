@@ -81,8 +81,13 @@ that depends on yew needs a version for leafy.
 - `Classes` keeps duplicates; boolean attributes are rendered as
   `disabled=""`.
 - `selected` (on `<option>`) and `muted` (on `<video>`/`<audio>`), when not
-  literals, are set as properties (like `value` and `checked`), so they
-  apply even after the user changed them.
+  literals, are set as properties on every render (like `value` and
+  `checked`), so they apply even after the user changed them: a `<select>`
+  is controlled, like an `<input>`. (If a change cannot be persisted
+  immediately, show the pending value with `use_pending`.)
+- `value={None}` (on `<input>`/`<textarea>`) is `value=""`: each render
+  clears what the user typed. yew leaves the value alone while it stays
+  `None`. For an uncontrolled input, give it no `value`.
 - A repeated attribute, or a known event name with capitals (`onSubmit`),
   is a compile-time warning.
 - A message a struct component sends itself in `create` is handled before
@@ -103,6 +108,11 @@ that depends on yew needs a version for leafy.
 - `use_context_selector(|ctx: &T| ctx.part.clone())`: re-renders only when
   the selected part of a context changes. Useful for a context that changes
   often, read by components that need only a stable part of it.
+- `use_pending(&saved, busy)`: the value to show for a saved one (e.g. on a
+  server) in a control the user changes: while `busy` (saving, until
+  `saved` is up to date), the user's last choice (`set(v)`); otherwise
+  `saved`. For a controlled `<select>` or `<input>`, which would otherwise
+  show the old value until it's saved.
 
 ### Removals
 
@@ -195,7 +205,7 @@ html! { <div class="card"><b>{"Name: "}</b>{name}<button {onclick}/></div> }
 
 ## 🔬 How it was made
 
-Written by Claude Opus 5.5 from roughly 75 prompts with moderate guidance.
+Written by Claude Opus 5.5 from roughly 80 prompts with moderate guidance.
 It was checked against yew's behavior with browser tests (`tests_app/run.sh`,
 in headless Chromium), native tests (`cargo test --workspace`), regression
 tests for bugs from yew's issue tracker, a differential test of the router

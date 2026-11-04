@@ -425,23 +425,23 @@ pub fn gen_nodes(nodes: &[Node]) -> TokenStream {
     match nodes {
         [] => quote!(<::leafy::Html as ::std::default::Default>::default()),
         [node] => gen_node(node),
-        nodes => gen_template(nodes, None),
+        nodes => gen_template(nodes, None, Vec::new()),
     }
+}
+
+fn key_of(e: &Element) -> Option<TokenStream> {
+    e.attrs
+        .iter()
+        .find(|a| a.name == "key")
+        .map(|a| match &a.value {
+            AttrVal::Lit(l) => l.to_token_stream(),
+            AttrVal::Expr(e) => e.clone(),
+        })
 }
 
 fn gen_node(node: &Node) -> TokenStream {
     match node {
-        Node::Element(e) => {
-            let key = e
-                .attrs
-                .iter()
-                .find(|a| a.name == "key")
-                .map(|a| match &a.value {
-                    AttrVal::Lit(l) => l.to_token_stream(),
-                    AttrVal::Expr(e) => e.clone(),
-                });
-            gen_template(std::slice::from_ref(node), key)
-        }
+        Node::Element(e) => gen_template(std::slice::from_ref(node), key_of(e), Vec::new()),
         Node::Fragment(children, None) => gen_nodes(children),
         Node::Fragment(children, Some(key)) => {
             let inner = gen_nodes(children);
@@ -1062,6 +1062,15 @@ fn lower(node: &Node, ancestors: &mut Vec<&'static str>, out: &mut Vec<T>, tags:
                 out.push(T::Hole(child_dyn(gen_nested(node, tags))));
                 return;
             }
+            if apart(e, None) {
+                // Its own template, keyed (so replaced when the key changes),
+                // inside the same elements.
+                let html = with_ns(ns, || {
+                    gen_template(std::slice::from_ref(node), key_of(e), tags.clone())
+                });
+                out.push(T::Hole(child_dyn(html)));
+                return;
+            }
             out.push(T::El(lower_element(e, ancestors, tags)));
         }
         Node::Fragment(children, None) => {
@@ -1490,6 +1499,38 @@ impl Emitter {
     }
 }
 
+/// Whether `e`, in a template whose root key is `key` (if `e` is the root),
+/// is built as a template of its own, for a key of its own that can change
+/// (not a literal).
+fn apart(e: &Element, key: Option<&TokenStream>) -> bool {
+    key.is_none()
+        && e.attrs
+            .iter()
+            .any(|a| a.name == "key" && matches!(a.value, AttrVal::Expr(_)))
+}
+
+/// Elements that are both HTML's and SVG's.
+const AMBIGUOUS: &[&str] = &["a", "script", "style", "title"];
+
+/// Whether `nodes` parse the same as HTML or in an `<svg>`.
+fn svg_compatible(nodes: &[T]) -> bool {
+    nodes.iter().all(|n| match n {
+        T::El(e) => {
+            let tag = e.tag.as_str();
+            (AMBIGUOUS.contains(&tag) || SVG_ONLY.contains(&tag) || tag == "svg")
+                && if e.raw {
+                    // (In SVG, its text is parsed as markup.)
+                    !e.children
+                        .iter()
+                        .any(|c| matches!(c, T::Text(t) if t.contains(['<', '&'])))
+                } else {
+                    svg_compatible(&e.children)
+                }
+        }
+        T::Text(_) | T::Hole(_) | T::Comment => true,
+    })
+}
+
 fn el_needs_walk(e: &TEl) -> bool {
     !e.holes.is_empty()
         || e.children
@@ -1497,12 +1538,22 @@ fn el_needs_walk(e: &TEl) -> bool {
             .any(|c| matches!(c, T::Hole(_)) || matches!(c, T::El(e) if el_needs_walk(e)))
 }
 
-/// A template for `nodes` (at the top level of a template).
-fn gen_template(nodes: &[Node], key: Option<TokenStream>) -> TokenStream {
+/// A template for `nodes` (at the top level of a template; if `key`, the
+/// one element's), inside `tags` (for an element built as its own template
+/// only for its key, the elements it's in: the parser puts its content in
+/// them).
+fn gen_template(nodes: &[Node], key: Option<TokenStream>, tags: Vec<String>) -> TokenStream {
     // Elements are parsed as HTML unless in SVG or MathML (where, as the
-    // template has no `<svg>`/`<math>` of its own, it's parsed inside one).
+    // template has no `<svg>`/`<math>` of its own, it's parsed inside one),
+    // as its first element (even if built apart, for its key) that is only
+    // one of theirs suggests.
     let first_tag = nodes.iter().find_map(|n| match n {
-        Node::Element(e) => Some(e.tag.as_str()),
+        Node::Element(e) if !AMBIGUOUS.contains(&e.tag.as_str()) => Some(e.tag.as_str()),
+        _ => None,
+    });
+    // Its first element not built apart: the first in its HTML.
+    let first_here = nodes.iter().find_map(|n| match n {
+        Node::Element(e) if !apart(e, key.as_ref()) => Some(e.tag.as_str()),
         _ => None,
     });
     let ns = match NS.get() {
@@ -1513,18 +1564,19 @@ fn gen_template(nodes: &[Node], key: Option<TokenStream>) -> TokenStream {
         },
         ns => ns,
     };
-    let wrapper = match (ns, first_tag) {
+    let wrapper = match (ns, first_here) {
         (_, None) | (Ns::Html, _) | (Ns::Svg, Some("svg")) | (Ns::Math, Some("math")) => None,
         (Ns::Svg, _) => Some("svg"),
         (Ns::Math, _) => Some("math"),
     };
     let mut lowered = Vec::new();
-    let mut tags = Vec::new();
+    let mut tags = tags;
     with_ns(ns, || {
         for n in nodes {
             match n {
-                // At the top level, an element is never split.
-                Node::Element(e) => {
+                // At the top level, an element is never split (but one of
+                // several with a key is its own template, keyed).
+                Node::Element(e) if !apart(e, key.as_ref()) => {
                     lowered.push(T::El(lower_element(e, &mut Vec::new(), &mut tags)))
                 }
                 n => lower(n, &mut Vec::new(), &mut lowered, &mut tags),
@@ -1573,9 +1625,15 @@ fn gen_template(nodes: &[Node], key: Option<TokenStream>) -> TokenStream {
         quote!(::leafy::__SsrHole(#at, #kind, #name))
     });
     // In the browser, parse inside a wrapper element (which the walk's
-    // first op removes).
+    // first op removes). Elements that are both HTML's and SVG's (`<a>`) are
+    // HTML unless the template is mounted in SVG (as yew creates elements in
+    // their parent's namespace).
+    let ambiguous = ns == Ns::Html
+        && first_here.is_some_and(|t| AMBIGUOUS.contains(&t))
+        && svg_compatible(&children);
     let (wasm_html, wasm_walk) = match wrapper {
         Some(w) => (format!("<{w}>{html}"), format!("W{walk}")),
+        None if ambiguous => (html.clone(), format!("A{walk}")),
         None => (html.clone(), walk.clone()),
     };
     let tpl = quote!(

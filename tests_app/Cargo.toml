@@ -10,7 +10,7 @@ leafy = { path = "../leafy" }
 wasm-bindgen = "0.2"
 wasm-bindgen-futures = "0.4"
 js-sys = "0.3"
-web-sys = { version = "0.3.94", features = ["HtmlInputElement", "InputEvent", "KeyboardEvent", "MouseEvent", "Window", "console", "Document", "Element", "HtmlElement", "Node", "Event", "EventInit", "HtmlCollection", "NodeList", "MutationObserver", "MutationObserverInit", "MutationRecord", "WheelEvent", "FocusEvent", "CssStyleDeclaration", "HtmlHeadElement"] }
+web-sys = { version = "0.3.94", features = ["HtmlInputElement", "InputEvent", "KeyboardEvent", "MouseEvent", "Window", "console", "Document", "Element", "HtmlElement", "Node", "Event", "EventInit", "HtmlCollection", "NodeList", "MutationObserver", "MutationObserverInit", "MutationRecord", "WheelEvent", "FocusEvent", "CssStyleDeclaration", "HtmlHeadElement", "HtmlSelectElement", "DomRect"] }
 
 [profile.dev]
 opt-level = 1

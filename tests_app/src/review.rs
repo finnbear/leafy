@@ -271,3 +271,263 @@ pub async fn test_svg_case() -> TestResult {
     eq!(q(&el, "#none").tag_name(), "I");
     Ok(())
 }
+
+// A component whose root is an element of both HTML and SVG (`<a>`,
+// `<title>`) is in its parent's namespace, as in yew: in SVG, directly or
+// through a template's top-level hole, it's SVG.
+const SVG_NS: &str = "http://www.w3.org/2000/svg";
+const HTML_NS: &str = "http://www.w3.org/1999/xhtml";
+
+#[derive(Properties, PartialEq)]
+pub struct LinkProps {
+    class: AttrValue,
+    #[prop_or_default]
+    children: Children,
+}
+
+#[function_component(Link)]
+fn link(props: &LinkProps) -> Html {
+    html! { <a href="#l" class={props.class.clone()}>{props.children.clone()}</a> }
+}
+
+#[function_component(Tip)]
+fn tip() -> Html {
+    let s = use_test_state();
+    html! { <title class="tip">{format!("tip {s}")}</title> }
+}
+
+// Two links and text at its top level (so they're mounted in its fragment).
+#[function_component(Links)]
+fn links() -> Html {
+    html! { <><Link class="l2"><rect class="r2" width="5" height="5"/></Link>{"x"}<Link class="l3"/></> }
+}
+
+// A keyed element first (built as a template of its own), then an `<a>`.
+#[function_component(KeyedFirst)]
+fn keyed_first() -> Html {
+    let k = 1;
+    html! { <><span key={k}/><a class="l6" href="#"/></> }
+}
+
+// A keyed `<a>` first, then an SVG element: SVG.
+#[function_component(KeyedAFirst)]
+fn keyed_a_first() -> Html {
+    let k = 1;
+    html! { <><a key={k} class="l9" href="#"/><circle class="c9" r="1"/></> }
+}
+
+// A keyed SVG element first: the rest are SVG too.
+#[function_component(KeyedSvgFirst)]
+fn keyed_svg_first() -> Html {
+    let k = 1;
+    html! { <><rect key={k}/><a class="l7" href="#"><span/></a></> }
+}
+
+#[function_component(Ambiguous)]
+fn ambiguous() -> Html {
+    html! {
+        <div>
+            <svg>
+                <Link class="l1"><circle class="c1" r="5"/></Link>
+                <g><Links/></g>
+                <g><KeyedFirst/></g>
+                <g><KeyedSvgFirst/></g>
+                <g><KeyedAFirst/></g>
+                // (An SVG `<title>`'s content is HTML, as the parser parses it.)
+                <title><Link class="l8"/></title>
+                <Tip/>
+                <foreignObject width="10" height="10"><Link class="l4"/></foreignObject>
+            </svg>
+            <Link class="l5"><span class="s5">{"html"}</span></Link>
+        </div>
+    }
+}
+
+pub async fn test_ambiguous_svg() -> TestResult {
+    let el = mount::<Ambiguous>(());
+    tick().await;
+    let ns = |sel: &str| q(&el, sel).namespace_uri();
+    for sel in [
+        ".l1", ".c1", ".l2", ".r2", ".l3", ".l6", ".l7", ".l9", ".c9", ".tip",
+    ] {
+        eq!((sel, ns(sel)), (sel, Some(SVG_NS.to_owned())));
+    }
+    for sel in [".l4", ".l5", ".s5", ".l8"] {
+        eq!((sel, ns(sel)), (sel, Some(HTML_NS.to_owned())));
+    }
+    // It's rendered (an HTML `<a>` in an `<svg>` isn't, nor is its content).
+    let circle: web_sys::Element = q(&el, ".c1").unchecked_into();
+    eq!(circle.get_bounding_client_rect().width(), 10.0);
+    eq!(q(&el, ".tip").text_content(), Some("tip 0".to_owned()));
+    set(1).await;
+    eq!(q(&el, ".tip").text_content(), Some("tip 1".to_owned()));
+    Ok(())
+}
+
+// A `key` on an element other than a root: when it changes, the element is
+// replaced (as in yew).
+#[function_component(NestedKey)]
+fn nested_key() -> Html {
+    let s = use_test_state();
+    let key = s / 2;
+    html! {
+        <div>
+            <span id="k1" key={key} class={format!("c{s}")}>{s}</span>
+            <>
+                <b id="k2" key={key}/>
+                <i id="k3"/>
+            </>
+            <p><RootKeys k={key}/></p>
+        </div>
+    }
+}
+
+#[derive(Properties, PartialEq)]
+pub struct RootKeysProps {
+    k: u32,
+}
+
+#[function_component(RootKeys)]
+fn root_keys(props: &RootKeysProps) -> Html {
+    html! { <><b id="k4" key={props.k}/><i id="k5"/></> }
+}
+
+pub async fn test_nested_key() -> TestResult {
+    let el = mount::<NestedKey>(());
+    tick().await;
+    let mark = |el: &Element, sel: &str| {
+        js_sys::Reflect::set(&q(el, sel), &"mark".into(), &true.into()).unwrap();
+    };
+    let marked = |el: &Element, sel: &str| {
+        js_sys::Reflect::get(&q(el, sel), &"mark".into())
+            .unwrap()
+            .is_truthy()
+    };
+    for sel in ["#k1", "#k2", "#k3"] {
+        mark(&el, sel);
+    }
+    for sel in ["#k4", "#k5"] {
+        mark(&el, sel);
+    }
+    // Same key: kept, and patched.
+    set(1).await;
+    eq!(
+        html(&el),
+        r#"<div><span id="k1" class="c1">1</span><b id="k2"></b><i id="k3"></i><p><b id="k4"></b><i id="k5"></i></p></div>"#
+    );
+    eq!(
+        [marked(&el, "#k1"), marked(&el, "#k2"), marked(&el, "#k3")],
+        [true; 3]
+    );
+    eq!([marked(&el, "#k4"), marked(&el, "#k5")], [true; 2]);
+    // Another key: replaced.
+    set(2).await;
+    eq!(
+        html(&el),
+        r#"<div><span id="k1" class="c2">2</span><b id="k2"></b><i id="k3"></i><p><b id="k4"></b><i id="k5"></i></p></div>"#
+    );
+    eq!(
+        [marked(&el, "#k1"), marked(&el, "#k2"), marked(&el, "#k3")],
+        [false, false, true]
+    );
+    eq!([marked(&el, "#k4"), marked(&el, "#k5")], [false, true]);
+    Ok(())
+}
+
+// `use_pending`: a controlled `<select>` (whose `selected` is applied on
+// every render) shows the user's last choice while it's saved (`busy`), and
+// what was saved after (whether that's the choice, a normalized one, or the
+// old value, as the save failed).
+thread_local! {
+    static SAVED: RefCell<Option<UseStateHandle<&'static str>>> = const { RefCell::new(None) };
+    static BUSY: RefCell<Option<UseStateHandle<bool>>> = const { RefCell::new(None) };
+}
+
+#[function_component(Pending)]
+fn pending() -> Html {
+    // Re-rendered by other state too (as by a game, every frame).
+    let s = use_test_state();
+    let saved = use_state(|| "a");
+    let busy = use_state(|| false);
+    let shown = use_pending(&*saved, *busy);
+    SAVED.with_borrow_mut(|h| *h = Some(saved.clone()));
+    BUSY.with_borrow_mut(|h| *h = Some(busy.clone()));
+    let oninput = {
+        let shown = shown.clone();
+        Callback::from(move |e: InputEvent| {
+            let select: web_sys::HtmlSelectElement = e.target_unchecked_into();
+            shown.set(match select.value().as_str() {
+                "a" => "a",
+                "b" => "b",
+                _ => "c",
+            });
+            // (Saved later, by the test.)
+            busy.set(true);
+        })
+    };
+    html! {
+        <div class={format!("c{s}")} data-pending={shown.is_pending().to_string()}>
+            <select id="sel" {oninput}>
+                { for ["a", "b", "c"].into_iter().map(|o| html! {
+                    <option value={o} selected={*shown == o}>{o}</option>
+                }) }
+            </select>
+        </div>
+    }
+}
+
+pub async fn test_pending() -> TestResult {
+    let el = mount::<Pending>(());
+    tick().await;
+    let sel: web_sys::HtmlSelectElement = q(&el, "#sel").unchecked_into();
+    let state = || {
+        let pending = q(&el, "div").get_attribute("data-pending").unwrap();
+        (sel.value(), pending)
+    };
+    let is = |v: &str, p: bool| (v.to_owned(), p.to_string());
+    let saved = |v| SAVED.with_borrow(|h| h.clone().unwrap().set(v));
+    let busy = |b| BUSY.with_borrow(|h| h.clone().unwrap().set(b));
+    eq!(state(), is("a", false));
+    // The user's choice, being saved: shown through other renders.
+    input(&el, "#sel", "b");
+    tick().await;
+    set(1).await;
+    eq!(state(), is("b", true));
+    // Another, then back to the first: the last is shown while saving, even
+    // as the others save.
+    input(&el, "#sel", "c");
+    input(&el, "#sel", "a");
+    tick().await;
+    saved("b");
+    tick().await;
+    eq!(state(), is("a", true));
+    saved("c");
+    set(2).await;
+    eq!(state(), is("a", true));
+    // Done: what was saved.
+    saved("a");
+    busy(false);
+    tick().await;
+    eq!(state(), is("a", false));
+    // Saved as another value (normalized, or by someone else): that.
+    input(&el, "#sel", "b");
+    tick().await;
+    eq!(state(), is("b", true));
+    saved("c");
+    busy(false);
+    tick().await;
+    eq!(state(), is("c", false));
+    // Failed: the saved value.
+    input(&el, "#sel", "b");
+    tick().await;
+    busy(false);
+    tick().await;
+    eq!(state(), is("c", false));
+    // Busy again (with another change): the old choice isn't shown.
+    busy(true);
+    tick().await;
+    eq!(state(), is("c", false));
+    busy(false);
+    tick().await;
+    Ok(())
+}

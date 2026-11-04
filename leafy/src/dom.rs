@@ -10,13 +10,15 @@
 //! | `u`       | ascend to the parent                                            |
 //! | `R`       | the current node is a root of the template                      |
 //! | `a`name`;`| attribute hole on the current element                           |
-//! | `p`name`;`| property hole (`value`, `checked`) on the current element       |
+//! | `p`name`;`| property hole (`value`, `checked`, ...) on the current element  |
 //! | `e`name`;`| event listener hole on the current element (`E`: passive)       |
 //! | `r`       | node ref hole on the current element                            |
 //! | `c`       | child hole inserted before the current node                     |
 //! | `C`       | child hole inserted before the current node, and a root         |
 //! | `l`       | child hole appended to the current element                      |
 //! | `W`       | (first) the template is parsed inside a wrapper `<svg>`/`<math>`|
+//! | `A`       | (first) the template is parsed inside a wrapper `<svg>` if it's |
+//! |           | mounted in SVG (its elements are SVG's too, e.g. `<a>`)         |
 
 use crate::component::CompState;
 use crate::vdom::{Dyn, Html, VList, VTpl};
@@ -102,15 +104,28 @@ extern "C" {
     fn add_event_listener(this: &Node, name: &str, f: &JsValue, options: &JsValue);
     #[wasm_bindgen(method, js_name = removeEventListener)]
     fn remove_event_listener(this: &Node, name: &str, f: &JsValue);
+
+    #[wasm_bindgen(js_name = SVGElement)]
+    type SvgElement;
+    #[wasm_bindgen(js_name = SVGForeignObjectElement)]
+    type SvgForeignObjectElement;
+    #[wasm_bindgen(js_name = SVGTitleElement)]
+    type SvgTitleElement;
+    #[wasm_bindgen(js_name = SVGDescElement)]
+    type SvgDescElement;
 }
 
 thread_local! {
-    static TEMPLATES: RefCell<Vec<JsValue>> = const { RefCell::new(Vec::new()) };
+    /// Parsed templates (a template whose elements are SVG's as well as
+    /// HTML's has two slots: parsed as HTML, and as SVG).
+    static TEMPLATES: RefCell<Vec<Option<JsValue>>> = const { RefCell::new(Vec::new()) };
     /// Mounted [`Html::VRef`] nodes, and how many times each is mounted.
     static VREFS: RefCell<Vec<(Node, u32)>> = const { RefCell::new(Vec::new()) };
-    /// While mounting the top-level holes of a template parsed in an `<svg>`
-    /// or `<math>`, which.
-    static FRAGMENT_NS: std::cell::Cell<Option<&'static str>> = const { std::cell::Cell::new(None) };
+    /// The templates whose top-level holes are being mounted, innermost
+    /// last: where each goes, and its fragment (not yet inserted, which they
+    /// are mounted in). To find the element that content mounted in a
+    /// fragment will be in.
+    static OUTER: RefCell<Vec<(Pos<'static>, &'static Node)>> = const { RefCell::new(Vec::new()) };
     static FLUSH: Closure<dyn Fn()> = Closure::new(crate::component::flush);
     static PASSIVE: JsValue = {
         let o = js_sys::Object::new();
@@ -413,15 +428,27 @@ impl MTpl {
     }
 }
 
-/// A fresh copy of a template's DOM.
-fn instantiate(tpl: &'static crate::vdom::Tpl) -> Node {
-    let id = tpl.id.load(Ordering::Relaxed);
+/// A fresh copy of a template's DOM (if `svg`, parsed in an `<svg>`).
+fn instantiate(tpl: &'static crate::vdom::Tpl, svg: bool) -> Node {
     TEMPLATES.with_borrow_mut(|templates| {
-        let content = if id == 0 {
+        let mut id = tpl.id.load(Ordering::Relaxed) as usize;
+        if id == 0 {
+            templates.push(None);
+            if tpl.walk.starts_with('A') {
+                templates.push(None);
+            }
+            id = templates.len() - tpl.walk.starts_with('A') as usize;
+            tpl.id.store(id as u32, Ordering::Relaxed);
+        }
+        let content = templates[id - 1 + svg as usize].get_or_insert_with(|| {
             let el = DOCUMENT.with(|d| d.create_element("template"));
-            el.set_inner_html(tpl.html);
+            if svg {
+                el.set_inner_html(&format!("<svg>{}", tpl.html));
+            } else {
+                el.set_inner_html(tpl.html);
+            }
             let content = el.content();
-            if tpl.walk.starts_with('W') {
+            if svg || tpl.walk.starts_with('W') {
                 // Parsed inside an `<svg>` or `<math>`: unwrap.
                 let frag: &Node = content.unchecked_ref();
                 let wrapper = frag.first_child();
@@ -430,14 +457,48 @@ fn instantiate(tpl: &'static crate::vdom::Tpl) -> Node {
                 }
                 wrapper.remove_js();
             }
-            templates.push(content.clone());
-            tpl.id.store(templates.len() as u32, Ordering::Relaxed);
             content
-        } else {
-            templates[id as usize - 1].clone()
-        };
-        DOCUMENT.with(|d| d.import_node(&content, true))
+        });
+        DOCUMENT.with(|d| d.import_node(content, true))
     })
+}
+
+/// The element that content mounted in `parent` is in: `parent`, or (if
+/// it's a template's fragment, not yet inserted) where it will be, if known.
+fn context(mut parent: Node) -> Option<Node> {
+    OUTER.with_borrow(|outer| {
+        let mut outer = outer.iter().rev();
+        while parent.node_type() != 1 {
+            // A template's fragment (or another, e.g. a shadow root, whose
+            // content is HTML).
+            let (pos, frag) = outer.next()?;
+            if parent != **frag {
+                return None;
+            }
+            parent = pos.parent();
+        }
+        Some(parent)
+    })
+}
+
+/// Whether content in `el` is SVG (not in one of the elements whose
+/// content the HTML parser parses as HTML).
+fn is_svg(el: &Node) -> bool {
+    el.is_instance_of::<SvgElement>()
+        && !el.is_instance_of::<SvgForeignObjectElement>()
+        && !el.is_instance_of::<SvgTitleElement>()
+        && !el.is_instance_of::<SvgDescElement>()
+}
+
+/// Pops [`OUTER`], if it pushed.
+struct Outer(bool);
+
+impl Drop for Outer {
+    fn drop(&mut self) {
+        if self.0 {
+            OUTER.with_borrow_mut(|o| o.pop());
+        }
+    }
 }
 
 fn set_attr(el: &Node, name: &str, prop: bool, value: &Option<AttrValue>) {
@@ -504,21 +565,12 @@ pub(crate) fn mount(html: &Html, pos: Pos<'_>, owner: Option<&Rc<CompState>>) ->
 
 fn mount_raw(html: &str, pos: Pos<'_>) -> Vec<Node> {
     let parent = pos.parent();
-    // Parse in the context of (a copy of) the parent, for e.g. SVG.
-    let mut tmp = if parent.node_type() == 1 {
-        parent.clone_node(false)
-    } else {
-        DOCUMENT.with(|d| d.create_element("div"))
+    // Parse in the context of (a copy of) the element it's in, for e.g. SVG.
+    let tmp = match context(parent.clone()) {
+        Some(el) => el.clone_node(false),
+        None => DOCUMENT.with(|d| d.create_element("div")),
     };
-    match FRAGMENT_NS.get() {
-        // In a template's fragment, parsed in an `<svg>` or `<math>`: so is
-        // this.
-        Some(ns) if parent.node_type() == 11 => {
-            tmp.set_inner_html(&format!("<{ns}>{html}"));
-            tmp = tmp.first_child();
-        }
-        _ => tmp.set_inner_html(html),
-    }
+    tmp.set_inner_html(html);
     let mut nodes = Vec::new();
     while let Some(n) = tmp.first_child_opt() {
         parent.insert_before(&n, pos.before);
@@ -529,9 +581,12 @@ fn mount_raw(html: &str, pos: Pos<'_>) -> Vec<Node> {
 
 #[inline(never)]
 fn mount_tpl(vt: &VTpl, pos: Pos<'_>, owner: Option<&Rc<CompState>>) -> MTpl {
-    let frag = instantiate(vt.tpl);
     let walk = vt.tpl.walk;
     let bytes = walk.as_bytes();
+    // (`<a>` is an SVG element in SVG.)
+    let svg = bytes.first() == Some(&b'A') && context(pos.parent()).is_some_and(|el| is_svg(&el));
+    let frag = instantiate(vt.tpl, svg);
+    let mut outer = Outer(false);
     let mut cur = frag.clone();
     let mut stack: Vec<Node> = Vec::new();
     let mut roots = Vec::new();
@@ -549,7 +604,7 @@ fn mount_tpl(vt: &VTpl, pos: Pos<'_>, owner: Option<&Rc<CompState>>) -> MTpl {
             b'n' => cur = cur.next_sibling().unwrap(),
             b'u' => cur = stack.pop().unwrap(),
             b'R' => roots.push(Root::Node(cur.clone())),
-            b'W' => {}
+            b'W' | b'A' => {}
             b'a' | b'p' | b'e' | b'E' => {
                 let start = i;
                 while bytes[i] != b';' {
@@ -600,25 +655,23 @@ fn mount_tpl(vt: &VTpl, pos: Pos<'_>, owner: Option<&Rc<CompState>>) -> MTpl {
                 };
                 // A top-level hole's parent changes (from the fragment), so
                 // is found through its anchor.
-                let pos = if op == b'C' {
+                let hole_pos = if op == b'C' {
+                    if !outer.0 {
+                        // SAFETY: popped (by `outer`) before `pos` and
+                        // `frag` are out of scope.
+                        let entry = unsafe {
+                            std::mem::transmute::<(Pos<'_>, &Node), (Pos<'static>, &'static Node)>(
+                                (pos, &frag),
+                            )
+                        };
+                        OUTER.with_borrow_mut(|o| o.push(entry));
+                        outer.0 = true;
+                    }
                     Pos::stable(None, anchor.as_ref())
                 } else {
                     Pos::stable(Some(&parent), anchor.as_ref())
                 };
-                let m = if op == b'C' && bytes[0] == b'W' {
-                    // (See `mount_raw`.)
-                    let ns = if vt.tpl.html.starts_with("<svg>") {
-                        "svg"
-                    } else {
-                        "math"
-                    };
-                    let prev = FRAGMENT_NS.replace(Some(ns));
-                    let m = mount(html, pos, owner);
-                    FRAGMENT_NS.set(prev);
-                    m
-                } else {
-                    mount(html, pos, owner)
-                };
+                let m = mount(html, hole_pos, owner);
                 if op == b'C' {
                     roots.push(Root::Hole(holes.len()));
                 }
@@ -631,6 +684,7 @@ fn mount_tpl(vt: &VTpl, pos: Pos<'_>, owner: Option<&Rc<CompState>>) -> MTpl {
             _ => mismatch(),
         }
     }
+    drop(outer);
     insert(pos, &frag);
     MTpl { roots, holes }
 }

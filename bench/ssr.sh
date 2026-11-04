@@ -3,12 +3,15 @@
 # Builds the server-rendering benchmark (apps/ssr, with apps/synthetic's
 # generator's 100 components) natively, against yew 0.23 and against leafy,
 # runs each (pinned to one core), and writes the median time per render of
-# each scene to out/ssr.json. Plot with ssr.mjs.
+# each scene to out/ssr.json. Plot with ssr.mjs. (The two are built at the
+# same time, with half the CPUs each, then run one at a time.)
 set -euo pipefail
 cd "$(dirname "$0")"
 SAMPLES=${1:-30}
 HERE=$PWD
-results="{"
+JOBS=$(( $(nproc) / 2 ))
+[ "$JOBS" -ge 1 ] || JOBS=1
+pids=()
 for lib in yew leafy; do
     OUT=out/ssr-$lib
     mkdir -p "$OUT/src"
@@ -48,7 +51,18 @@ codegen-units = 1
 TOML
     # Natively, with the default toolchain: from outside bench/ (whose
     # config and toolchain are for wasm).
-    (cd / && cargo build --release --quiet --manifest-path "$HERE/$OUT/Cargo.toml" $FEATURES)
+    (cd / && cargo build --release --quiet --jobs "$JOBS" --manifest-path "$HERE/$OUT/Cargo.toml" $FEATURES) &
+    pids+=($!)
+done
+# (Both, before failing if either did.)
+failed=0
+for p in "${pids[@]}"; do
+    wait "$p" || failed=1
+done
+[ "$failed" = 0 ] || exit 1
+results="{"
+for lib in yew leafy; do
+    OUT=out/ssr-$lib
     json=$(cd / && taskset -c 0 "$HERE/$OUT/target/release/app" "$SAMPLES")
     echo "$lib: $json"
     results+="\"$lib\": $json,"

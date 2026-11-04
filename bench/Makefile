@@ -10,7 +10,6 @@
 
 RUNS ?= 10
 APPS := todomvc todomvc_struct jsfb jsfb_struct life
-LIBS := yew leafy
 PROFILES := speed size
 TOOLS := trunk wasm-tools brotli node python3 bc taskset cargo
 CHROME ?= chromium
@@ -26,9 +25,9 @@ all: apps buildtime ssr
 tools:
 	@for t in $(TOOLS) $(CHROME); do command -v $$t > /dev/null || { echo "missing: $$t" >&2; exit 1; }; done
 
-# Each app with each library and profile.
+# Each app with each library and profile (built several at a time).
 sizes: tools
-	@for app in $(APPS); do for lib in $(LIBS); do for p in $(PROFILES); do ./build.sh $$app $$lib $$p || exit 1; done; done; done
+	./sizes.sh $(APPS)
 
 # Runtime speed of those builds.
 speed: sizes

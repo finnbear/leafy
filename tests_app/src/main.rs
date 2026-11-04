@@ -960,6 +960,9 @@ async fn run() {
         ("parser", Box::pin(review::test_parser())),
         ("range_value", Box::pin(review::test_range_value())),
         ("svg_case", Box::pin(review::test_svg_case())),
+        ("ambiguous_svg", Box::pin(review::test_ambiguous_svg())),
+        ("nested_key", Box::pin(review::test_nested_key())),
+        ("pending", Box::pin(review::test_pending())),
         ("reentrant", Box::pin(regressions::test_reentrant())),
         (
             "duplicate_keys",
