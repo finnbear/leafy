@@ -292,7 +292,7 @@ impl Routable {
             .map(|(i, at)| (i, compile(&at.value())))
             .collect();
         // Best first; stable, so the first declared of equals first.
-        routes.sort_by(|a, b| b.1.rank.cmp(&a.1.rank));
+        routes.sort_by_key(|r| std::cmp::Reverse(r.1.rank));
         let n_caps = routes.iter().map(|r| r.1.captures.len()).max().unwrap_or(0);
         let tables = routes.iter().map(|(_, c)| {
             let parts = &c.parts;
