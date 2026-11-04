@@ -195,3 +195,34 @@ pub async fn test_parser() -> TestResult {
     eq!(q(&el, "#svgstyle").text_content(), Some("b{}".to_owned()));
     Ok(())
 }
+
+// A range input's value is applied after its `min` and `max` (as yew does),
+// or it's clamped to the default range, 0 to 100. (The value was set first.)
+#[function_component(Range)]
+fn range() -> Html {
+    let s = use_test_state();
+    let (min, max, value) = if s == 0 {
+        (64, 512, 256)
+    } else {
+        (200, 1000, 900)
+    };
+    html! {
+        <div>
+            <input id="range" type="range" min={min.to_string()} max={max.to_string()} value={value.to_string()}/>
+            <input id="check" type="checkbox" disabled={s == 1} checked={s == 1}/>
+        </div>
+    }
+}
+
+pub async fn test_range_value() -> TestResult {
+    let el = mount::<Range>(());
+    tick().await;
+    let input = |id| q(&el, id).dyn_into::<web_sys::HtmlInputElement>().unwrap();
+    eq!(input("#range").value(), "256");
+    eq!(input("#check").checked(), false);
+    // Changed together with the range.
+    set(1).await;
+    eq!(input("#range").value(), "900");
+    eq!(input("#check").checked(), true);
+    Ok(())
+}

@@ -559,3 +559,95 @@ fn batch_callback_option_or_vec() {
     }
     assert_eq!(render::<C>(()), "<i></i>");
 }
+
+// props!, as yew's: defaults, shorthand, conversion, `Comp::Properties`.
+#[test]
+fn props_macro() {
+    #[derive(Properties, PartialEq, Debug)]
+    struct P {
+        id: u32,
+        #[prop_or_default]
+        name: AttrValue,
+        #[prop_or(7)]
+        n: u32,
+        #[prop_or_default]
+        r#type: AttrValue,
+    }
+    #[function_component(C)]
+    fn c(p: &P) -> Html {
+        html! { <b>{p.id}{p.name.clone()}{p.n}</b> }
+    }
+    let id = 3;
+    let p = leafy::props!(P { id, name: "x" });
+    assert_eq!(
+        (p.id, p.name.as_str(), p.n, p.r#type.as_str()),
+        (3, "x", 7, "")
+    );
+    let p = leafy::props!(C::Properties {
+        id: 1,
+        n: 2,
+        r#type: "t"
+    });
+    assert_eq!(
+        (p.id, p.name.as_str(), p.n, p.r#type.as_str()),
+        (1, "", 2, "t")
+    );
+    assert_eq!(render::<C>(leafy::props!(P { id: 4 })), "<b>47</b>");
+}
+
+// `..base` with typed children (`ChildrenWithProps`): converted, as without
+// a base (was a type error).
+#[test]
+fn base_props_with_typed_children() {
+    #[derive(Properties, PartialEq, Clone)]
+    struct ItemProps {
+        n: u32,
+    }
+    #[function_component(Item)]
+    fn item(p: &ItemProps) -> Html {
+        html! { <i>{p.n}</i> }
+    }
+    #[derive(Properties, PartialEq, Clone)]
+    struct ListProps {
+        #[prop_or_default]
+        title: AttrValue,
+        #[prop_or_default]
+        children: ChildrenWithProps<Item>,
+    }
+    #[function_component(List)]
+    fn list(p: &ListProps) -> Html {
+        html! { <ul title={p.title.clone()}>{for p.children.iter()}</ul> }
+    }
+    #[function_component(Page)]
+    fn page() -> Html {
+        let base = leafy::props!(ListProps { title: "t" });
+        html! {
+            <List ..base>
+                {for (1..3).map(|n| html_nested! { <Item {n}/> })}
+            </List>
+        }
+    }
+    assert_eq!(render::<Page>(()), "<ul title=\"t\"><i>1</i><i>2</i></ul>");
+}
+
+// `value` and `checked` are still evaluated first (as yew evaluates them),
+// though applied after the other attributes; and rendered after them.
+#[test]
+fn prop_evaluation_order() {
+    use std::cell::RefCell;
+    thread_local! {
+        static LOG: RefCell<Vec<&'static str>> = const { RefCell::new(Vec::new()) };
+    }
+    fn log(s: &'static str) -> &'static str {
+        LOG.with_borrow_mut(|l| l.push(s));
+        s
+    }
+    let html = html! {
+        <input min={log("min")} value={log("value")} class={log("class")} max={log("max")}/>
+    };
+    assert_eq!(LOG.take(), ["value", "class", "min", "max"]);
+    assert_eq!(
+        render_html(html),
+        "<input class=\"class\" min=\"min\" max=\"max\" value=\"value\">"
+    );
+}

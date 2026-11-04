@@ -1,7 +1,8 @@
 # 🍃 leafy
 
 A Rust web UI library that implements a subset of [yew](https://yew.rs)
-without a virtual DOM, producing much smaller WebAssembly binaries.
+without a virtual DOM, producing much smaller (and often faster)
+WebAssembly binaries.
 
 It keeps yew's programming model and API, so existing yew code compiles
 almost unchanged, but compiles markup into static templates and compact
@@ -190,7 +191,7 @@ html! { <div class="card"><b>{"Name: "}</b>{name}<button {onclick}/></div> }
 
 ## 🔬 How it was made
 
-Written by Claude Opus 5.5 from roughly 70 prompts with moderate guidance.
+Written by Claude Opus 5.5 from roughly 75 prompts with moderate guidance.
 It was checked against yew's behavior with browser tests (`tests_app/run.sh`,
 in headless Chromium), native tests (`cargo test --workspace`), regression
 tests for bugs from yew's issue tracker, a differential test of the router

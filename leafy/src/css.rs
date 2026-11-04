@@ -12,7 +12,7 @@ use crate::{Classes, IntoPropValue};
 #[cfg(not(target_arch = "wasm32"))]
 use std::cell::RefCell;
 #[cfg(target_arch = "wasm32")]
-use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::atomic::{AtomicBool, AtomicPtr, Ordering};
 
 /// A [`css!`](crate::css) class. Its stylesheet goes on the page when it
 /// first becomes one of an element's [`Classes`], not where the macro is
@@ -65,6 +65,10 @@ pub struct Css {
     css: &'static str,
     #[cfg(target_arch = "wasm32")]
     registered: AtomicBool,
+    /// If it's on the page, the stylesheet put on the page before it (see
+    /// `ADDED`).
+    #[cfg(target_arch = "wasm32")]
+    next: AtomicPtr<Css>,
 }
 
 #[cfg(not(target_arch = "wasm32"))]
@@ -82,6 +86,8 @@ impl Css {
             css,
             #[cfg(target_arch = "wasm32")]
             registered: AtomicBool::new(false),
+            #[cfg(target_arch = "wasm32")]
+            next: AtomicPtr::new(std::ptr::null_mut()),
         }
     }
 
@@ -89,12 +95,13 @@ impl Css {
     /// class (empty for a global stylesheet).
     ///
     /// In the browser, it goes in a `<style>` of its own at the end of
-    /// `<head>`. On the server, called while rendering, it's one of the
+    /// `<head>`, unless the same stylesheet (another `css!` of the same
+    /// rules) is already there. On the server, called while rendering, it's one of the
     /// render's [`RenderedCss`] (otherwise, it does nothing there).
     pub fn register(&'static self) -> &'static str {
         #[cfg(target_arch = "wasm32")]
         if !self.registered.swap(true, Ordering::Relaxed) {
-            crate::dom::add_style(self.css);
+            add_once(self);
         }
         #[cfg(not(target_arch = "wasm32"))]
         note(std::slice::from_ref(&self));
@@ -110,6 +117,37 @@ impl Css {
     pub fn css(&self) -> &'static str {
         self.css
     }
+}
+
+/// The stylesheet put on the page last, the start of a list of those on the
+/// page (through their `next`), or null. (A list through the `static`s
+/// themselves needs no allocation.)
+#[cfg(target_arch = "wasm32")]
+static ADDED: AtomicPtr<Css> = AtomicPtr::new(std::ptr::null_mut());
+
+/// Puts `css` on the page, unless the same stylesheet (another `css!` or
+/// `global_css!` of the same rules) is already there. (Once per `Css`.)
+#[cfg(target_arch = "wasm32")]
+#[inline(never)]
+fn add_once(css: &'static Css) {
+    let first = ADDED.load(Ordering::Relaxed);
+    let mut p = first;
+    // SAFETY: the list only ever holds `&'static Css`s.
+    while let Some(other) = unsafe { p.as_ref() } {
+        if same(other, css) {
+            return;
+        }
+        p = other.next.load(Ordering::Relaxed);
+    }
+    css.next.store(first, Ordering::Relaxed);
+    ADDED.store(css as *const Css as *mut Css, Ordering::Relaxed);
+    crate::dom::add_style(css.css);
+}
+
+/// Whether `a` and `b` are the same stylesheet: the same `Css`, or another
+/// `css!` (or `global_css!`) of the same rules.
+fn same(a: &Css, b: &Css) -> bool {
+    std::ptr::eq(a, b) || (a.class == b.class && a.css == b.css)
 }
 
 /// The stylesheets a server render used (see
@@ -177,10 +215,7 @@ impl<'a> IntoIterator for &'a RenderedCss {
 #[cfg(not(target_arch = "wasm32"))]
 pub(crate) fn merge(into: &mut Vec<&'static Css>, from: &[&'static Css]) {
     for &css in from {
-        // The same stylesheet, or another `css!` of the same rules.
-        if !into.iter().any(|other| {
-            std::ptr::eq(*other, css) || (other.class == css.class && other.css == css.css)
-        }) {
+        if !into.iter().any(|other| same(other, css)) {
             into.push(css);
         }
     }

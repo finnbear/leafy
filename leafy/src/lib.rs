@@ -73,7 +73,7 @@ pub use css::{Css, CssClass};
 pub use hooks::*;
 pub use leafy_macro::{
     Properties, classes, css, function_component, function_component as component, global_css,
-    hook, html, html_nested,
+    hook, html, html_nested, props,
 };
 pub use node_ref::NodeRef;
 pub use renderer::{AppHandle, Renderer, set_custom_panic_hook};

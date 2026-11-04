@@ -501,3 +501,74 @@ fn derive_properties_impl(input: DeriveInput) -> syn::Result<TokenStream2> {
         }
     ))
 }
+
+/// `props!(Type { a: 1, b })`: a `Type` (a `Properties`), built as `html!`
+/// builds a component's: values converted with `IntoPropValue`, a missing
+/// required one a compile error, the rest their defaults. `Type` may be a
+/// component's `Comp::Properties`.
+///
+/// ```compile_fail
+/// # use leafy::prelude::*;
+/// #[derive(Properties, PartialEq)]
+/// struct P { id: u32 }
+/// let _ = leafy::props!(P {});
+/// ```
+#[proc_macro]
+pub fn props(input: TokenStream) -> TokenStream {
+    let PropsInput { ty, fields } = parse_macro_input!(input as PropsInput);
+    let sets = fields.iter().map(|(name, value)| {
+        let name = html::prop_ident(name);
+        quote::quote_spanned!(name.span()=> .#name(#value))
+    });
+    fix_paths(quote!({
+        ::leafy::__Build::__build(<#ty as ::leafy::Properties>::builder() #(#sets)*)
+    }))
+    .into()
+}
+
+struct PropsInput {
+    ty: syn::Type,
+    fields: Vec<(Ident, syn::Expr)>,
+}
+
+impl Parse for PropsInput {
+    fn parse(input: ParseStream) -> syn::Result<Self> {
+        let mut path: syn::TypePath = input.parse()?;
+        // `Comp::Properties`, as `<Comp as BaseComponent>::Properties`.
+        let ty = if path.qself.is_none()
+            && path.path.segments.len() > 1
+            && path
+                .path
+                .segments
+                .last()
+                .is_some_and(|s| s.ident == "Properties")
+        {
+            path.path.segments.pop();
+            path.path.segments.pop_punct();
+            syn::parse_quote!(<#path as ::leafy::BaseComponent>::Properties)
+        } else {
+            syn::Type::Path(path)
+        };
+        let content;
+        syn::braced!(content in input);
+        let mut fields = Vec::new();
+        while !content.is_empty() {
+            let name: Ident = syn::ext::IdentExt::parse_any(&content)?;
+            let value = if content.peek(syn::Token![:]) {
+                content.parse::<syn::Token![:]>()?;
+                content.parse()?
+            } else {
+                syn::parse_quote!(#name)
+            };
+            fields.push((name, value));
+            if content.is_empty() {
+                break;
+            }
+            content.parse::<syn::Token![,]>()?;
+        }
+        if !input.is_empty() {
+            return Err(input.error("unexpected tokens after the properties"));
+        }
+        Ok(Self { ty, fields })
+    }
+}

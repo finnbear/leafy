@@ -503,7 +503,7 @@ fn gen_children(nodes: &[Node]) -> TokenStream {
     })
 }
 
-fn prop_ident(ident: &Ident) -> Ident {
+pub(crate) fn prop_ident(ident: &Ident) -> Ident {
     let s = ident.to_string();
     let s = s.trim_start_matches("r#");
     if syn::parse_str::<Ident>(s).is_err() {
@@ -530,7 +530,9 @@ fn gen_component(c: &Component) -> TokenStream {
             let v = val(v);
             quote!(__p.#name = ::leafy::IntoPropValue::into_prop_value(#v);)
         });
-        let children = children.map(|ch| quote!(__p.children = #ch;));
+        // (Converted, as the builder's setter converts: typed children.)
+        let children =
+            children.map(|ch| quote!(__p.children = ::leafy::IntoPropValue::into_prop_value(#ch);));
         quote!({
             #[allow(unused_mut)]
             let mut __p = #base;
@@ -565,8 +567,11 @@ enum T {
 struct TEl {
     tag: String,
     statics: Vec<(String, Option<String>)>,
-    /// (op, name, `Dyn` expression)
+    /// (op, name, `Dyn` expression), in the order they're applied.
     holes: Vec<(char, String, TokenStream)>,
+    /// Statements evaluating the values of its `p` holes, first (as yew
+    /// evaluates them), for the holes to apply after its attributes.
+    pre: Vec<TokenStream>,
     children: Vec<T>,
     /// Its content is text the HTML parser doesn't unescape (`<style>`,
     /// `<script>`, ...), so it's written as is.
@@ -1101,6 +1106,7 @@ fn lower_element(e: &Element, ancestors: &mut Vec<&'static str>, tags: &mut Vec<
     let tag = e.tag.clone();
     let mut statics = Vec::new();
     let mut holes = Vec::new();
+    let mut pre = Vec::new();
     let is_input = tag == "input";
     let has_value_prop = is_input || tag == "textarea";
     for (i, a) in e.attrs.iter().enumerate() {
@@ -1159,18 +1165,22 @@ fn lower_element(e: &Element, ancestors: &mut Vec<&'static str>, tags: &mut Vec<
         };
         // (A literal `selected` or `muted` sets the default, as an attribute.)
         if bool_prop && (name == "checked" || !matches!(a.value, AttrVal::Lit(_))) {
+            let v = Ident::new(&format!("__leafy_p{}", pre.len()), Span::mixed_site());
+            pre.push(quote_spanned!(span=> let #v = #expr;));
             holes.push((
                 'p',
                 name.to_string(),
-                quote_spanned!(span=> ::leafy::__bool(#expr)),
+                quote_spanned!(span=> ::leafy::__bool(#v)),
             ));
             continue;
         }
         if name == "value" && has_value_prop {
+            let v = Ident::new(&format!("__leafy_p{}", pre.len()), Span::mixed_site());
+            pre.push(quote_spanned!(span=> let #v = #expr;));
             holes.push((
                 'p',
                 name.to_string(),
-                quote_spanned!(span=> ::leafy::__attr(#expr)),
+                quote_spanned!(span=> ::leafy::__attr(#v)),
             ));
             continue;
         }
@@ -1198,14 +1208,16 @@ fn lower_element(e: &Element, ancestors: &mut Vec<&'static str>, tags: &mut Vec<
             }
         }
     }
-    // Evaluate in yew's order: value and checked, ref, class, other
-    // attributes, listeners.
+    // Evaluate in yew's order: value and checked (in `pre`), ref, class,
+    // other attributes, listeners. Apply value and checked after the other
+    // attributes, as yew does: an `<input type="range">`'s `value` is clamped
+    // to its `min` and `max`, so must come after them.
     holes.sort_by_key(|(op, name, _)| match op {
-        'p' => 0,
         'r' => 1,
         'a' if name == "class" => 2,
         'a' => 3,
-        _ => 4,
+        'p' => 4,
+        _ => 5,
     });
     let html = ns_of_tags(tags).unwrap_or(NS.get()) == Ns::Html;
     let text_only = html && RAW_TEXT.contains(&tag.as_str());
@@ -1238,6 +1250,7 @@ fn lower_element(e: &Element, ancestors: &mut Vec<&'static str>, tags: &mut Vec<
         tag,
         statics,
         holes,
+        pre,
         children,
     }
 }
@@ -1458,6 +1471,7 @@ impl Emitter {
     }
 
     fn emit_el_walk(&mut self, e: &TEl) -> syn::Result<()> {
+        self.dyns.extend(e.pre.iter().cloned());
         for (op, name, expr) in &e.holes {
             self.offsets.push(self.tag_end[&(e as *const TEl as usize)]);
             self.kinds.push(match op {

@@ -620,3 +620,44 @@ pub async fn test_css() -> TestResult {
     eq!(styles(), before);
     Ok(())
 }
+
+// Two `css!` (and two `global_css!`) of the same rules: one `<style>` each,
+// as on the server (and as stylist does).
+#[function_component(SameRules)]
+fn same_rules() -> Html {
+    let a = css!("color: rgb(0, 0, 255);");
+    let b = css!("color: rgb(0, 0, 255);");
+    global_css!(".same-rules { margin-left: 2px; }").register();
+    global_css!(".same-rules { margin-left: 2px; }").register();
+    html! { <><i id="sa" class={classes!("same-rules", a)}/><i id="sb" class={b}/></> }
+}
+
+pub async fn test_css_same_rules() -> TestResult {
+    let styles = || {
+        document()
+            .head()
+            .unwrap()
+            .query_selector_all("style")
+            .unwrap()
+            .length()
+    };
+    let before = styles();
+    let el = mount::<SameRules>(());
+    tick().await;
+    eq!(styles(), before + 2);
+    let class = |sel: &str| q(&el, sel).get_attribute("class").unwrap();
+    eq!(class("#sa").ends_with(&class("#sb")), true);
+    let computed = |sel: &str, prop: &str| {
+        web_sys::window()
+            .unwrap()
+            .get_computed_style(&q(&el, sel))
+            .unwrap()
+            .unwrap()
+            .get_property_value(prop)
+            .unwrap()
+    };
+    eq!(computed("#sa", "color"), "rgb(0, 0, 255)");
+    eq!(computed("#sb", "color"), "rgb(0, 0, 255)");
+    eq!(computed("#sa", "margin-left"), "2px");
+    Ok(())
+}

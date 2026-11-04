@@ -950,6 +950,7 @@ async fn run() {
         ("struct_context", Box::pin(issues::test_struct_context())),
         ("parsing", Box::pin(issues::test_parsing())),
         ("css", Box::pin(issues::test_css())),
+        ("css_same_rules", Box::pin(issues::test_css_same_rules())),
         ("vref_shape", Box::pin(review::test_vref_shape())),
         ("vref_list", Box::pin(review::test_vref_list())),
         ("blur_removed", Box::pin(review::test_blur_removed())),
@@ -957,6 +958,7 @@ async fn run() {
         ("stale_effect", Box::pin(review::test_stale_effect())),
         ("raw_svg", Box::pin(review::test_raw_svg())),
         ("parser", Box::pin(review::test_parser())),
+        ("range_value", Box::pin(review::test_range_value())),
         ("reentrant", Box::pin(regressions::test_reentrant())),
         (
             "duplicate_keys",
