@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" width="900" height="560" role="img" aria-labelledby="t d" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
 <title id="t">Build time and size with 1 to 100 components: leafy and yew</title>
-<desc id="d">leafy, optimized for speed, 1 components: 23,937 bytes, built in 1.05 s; leafy, optimized for speed, 10 components: 31,758 bytes, built in 1.21 s; leafy, optimized for speed, 20 components: 35,512 bytes, built in 1.56 s; leafy, optimized for speed, 30 components: 37,858 bytes, built in 1.58 s; leafy, optimized for speed, 40 components: 39,450 bytes, built in 2.08 s; leafy, optimized for speed, 50 components: 41,983 bytes, built in 1.92 s; leafy, optimized for speed, 60 components: 44,283 bytes, built in 2.08 s; leafy, optimized for speed, 70 components: 45,859 bytes, built in 2.25 s; leafy, optimized for speed, 80 components: 47,577 bytes, built in 2.47 s; leafy, optimized for speed, 90 components: 49,834 bytes, built in 2.59 s; leafy, optimized for speed, 100 components: 50,581 bytes, built in 2.82 s; leafy, optimized for size, 1 components: 20,299 bytes, built in 1.92 s; leafy, optimized for size, 10 components: 26,387 bytes, built in 2.05 s; leafy, optimized for size, 20 components: 29,232 bytes, built in 2.52 s; leafy, optimized for size, 30 components: 31,038 bytes, built in 2.58 s; leafy, optimized for size, 40 components: 31,934 bytes, built in 2.54 s; leafy, optimized for size, 50 components: 33,666 bytes, built in 2.82 s; leafy, optimized for size, 60 components: 35,368 bytes, built in 3.01 s; leafy, optimized for size, 70 components: 36,422 bytes, built in 3.13 s; leafy, optimized for size, 80 components: 37,698 bytes, built in 3.48 s; leafy, optimized for size, 90 components: 39,290 bytes, built in 3.75 s; leafy, optimized for size, 100 components: 40,102 bytes, built in 3.74 s; yew, optimized for speed, 1 components: 69,793 bytes, built in 1.44 s; yew, optimized for speed, 10 components: 89,149 bytes, built in 2.08 s; yew, optimized for speed, 20 components: 107,149 bytes, built in 3.9 s; yew, optimized for speed, 30 components: 120,649 bytes, built in 5.31 s; yew, optimized for speed, 40 components: 126,979 bytes, built in 6.02 s; yew, optimized for speed, 50 components: 140,508 bytes, built in 7.73 s; yew, optimized for speed, 60 components: 152,229 bytes, built in 9.08 s; yew, optimized for speed, 70 components: 159,429 bytes, built in 9.85 s; yew, optimized for speed, 80 components: 168,495 bytes, built in 11.29 s; yew, optimized for speed, 90 components: 179,622 bytes, built in 13.21 s; yew, optimized for speed, 100 components: 184,235 bytes, built in 13.96 s; yew, optimized for size, 1 components: 45,606 bytes, built in 2.76 s; yew, optimized for size, 10 components: 58,649 bytes, built in 3.31 s; yew, optimized for size, 20 components: 67,164 bytes, built in 4.71 s; yew, optimized for size, 30 components: 73,795 bytes, built in 5.85 s; yew, optimized for size, 40 components: 76,904 bytes, built in 6.52 s; yew, optimized for size, 50 components: 82,939 bytes, built in 7.52 s; yew, optimized for size, 60 components: 89,357 bytes, built in 8.86 s; yew, optimized for size, 70 components: 92,600 bytes, built in 9.85 s; yew, optimized for size, 80 components: 97,804 bytes, built in 10.9 s; yew, optimized for size, 90 components: 103,461 bytes, built in 12.08 s; yew, optimized for size, 100 components: 105,995 bytes, built in 12.83 s</desc>
+<desc id="d">leafy, optimized for speed, 1 components: 23,943 bytes, built in 1.02 s; leafy, optimized for speed, 10 components: 31,764 bytes, built in 1.16 s; leafy, optimized for speed, 20 components: 35,473 bytes, built in 1.5 s; leafy, optimized for speed, 30 components: 37,841 bytes, built in 1.6 s; leafy, optimized for speed, 40 components: 39,453 bytes, built in 2.08 s; leafy, optimized for speed, 50 components: 41,966 bytes, built in 1.88 s; leafy, optimized for speed, 60 components: 44,286 bytes, built in 2.08 s; leafy, optimized for speed, 70 components: 45,845 bytes, built in 2.16 s; leafy, optimized for speed, 80 components: 47,599 bytes, built in 2.44 s; leafy, optimized for speed, 90 components: 49,687 bytes, built in 2.84 s; leafy, optimized for speed, 100 components: 50,608 bytes, built in 2.66 s; leafy, optimized for size, 1 components: 20,331 bytes, built in 1.89 s; leafy, optimized for size, 10 components: 26,359 bytes, built in 2.03 s; leafy, optimized for size, 20 components: 29,202 bytes, built in 2.55 s; leafy, optimized for size, 30 components: 31,035 bytes, built in 2.66 s; leafy, optimized for size, 40 components: 32,014 bytes, built in 2.51 s; leafy, optimized for size, 50 components: 33,662 bytes, built in 2.7 s; leafy, optimized for size, 60 components: 35,360 bytes, built in 3.18 s; leafy, optimized for size, 70 components: 36,523 bytes, built in 3.01 s; leafy, optimized for size, 80 components: 37,762 bytes, built in 3.42 s; leafy, optimized for size, 90 components: 39,324 bytes, built in 3.69 s; leafy, optimized for size, 100 components: 40,071 bytes, built in 3.63 s; yew, optimized for speed, 1 components: 69,793 bytes, built in 1.42 s; yew, optimized for speed, 10 components: 89,149 bytes, built in 2.11 s; yew, optimized for speed, 20 components: 107,149 bytes, built in 3.81 s; yew, optimized for speed, 30 components: 120,649 bytes, built in 5.2 s; yew, optimized for speed, 40 components: 126,979 bytes, built in 5.85 s; yew, optimized for speed, 50 components: 140,508 bytes, built in 7.61 s; yew, optimized for speed, 60 components: 152,229 bytes, built in 8.9 s; yew, optimized for speed, 70 components: 159,429 bytes, built in 9.78 s; yew, optimized for speed, 80 components: 168,495 bytes, built in 11.16 s; yew, optimized for speed, 90 components: 179,622 bytes, built in 12.9 s; yew, optimized for speed, 100 components: 184,235 bytes, built in 13.67 s; yew, optimized for size, 1 components: 45,606 bytes, built in 2.7 s; yew, optimized for size, 10 components: 58,649 bytes, built in 3.19 s; yew, optimized for size, 20 components: 67,164 bytes, built in 4.52 s; yew, optimized for size, 30 components: 73,795 bytes, built in 5.76 s; yew, optimized for size, 40 components: 76,904 bytes, built in 6.25 s; yew, optimized for size, 50 components: 82,939 bytes, built in 7.41 s; yew, optimized for size, 60 components: 89,357 bytes, built in 8.64 s; yew, optimized for size, 70 components: 92,600 bytes, built in 9.39 s; yew, optimized for size, 80 components: 97,804 bytes, built in 10.69 s; yew, optimized for size, 90 components: 103,461 bytes, built in 11.72 s; yew, optimized for size, 100 components: 105,995 bytes, built in 12.57 s</desc>
 <style>
   .surface { fill: #fcfcfb; }
   .ink { fill: #0b0b0b; }
@@ -68,106 +68,106 @@
 <line class="axis" x1="76" y1="140" x2="76" y2="496"/>
 <text class="ink2" x="468" y="540" font-size="12" text-anchor="middle">Compressed wasm size (brotli; log scale)</text>
 <text class="ink2" transform="translate(20 318) rotate(-90)" font-size="12" text-anchor="middle">Build time (log scale)</text>
-<polyline class="line line-leafy" points="217.5,426.8 303.0,415.4 336.8,394.8 356.2,393.7 368.7,371.7 387.5,378.2 403.7,371.6 414.2,365.3 425.4,357.5 439.4,353.8 443.9,346.8"/>
-<polyline class="line line-leafy" points="167.6,378.3 247.0,372.7 277.9,356.0 296.1,354.2 304.7,355.3 320.7,346.8 335.6,341.6 344.5,338.5 354.9,329.8 367.4,323.7 373.6,323.9"/>
-<polyline class="line line-yew" points="541.4,401.5 615.4,371.6 671.1,320.5 707.0,295.5 722.5,285.3 753.1,265.0 777.4,251.9 791.4,245.3 808.1,234.2 827.5,221.4 835.1,217.0"/>
-<polyline class="line line-yew" points="412.6,348.7 488.7,333.8 529.7,305.3 558.2,287.6 570.7,278.8 593.6,267.2 616.1,253.9 626.9,245.3 643.5,237.1 660.5,228.7 667.8,223.8"/>
-<g class="dot"><title>leafy, optimized for speed, 1 component: 23,937 B, built in 1.05 s (runs: 1.94 s, 1.05 s, 0.9 s)</title>
-<circle class="hit" cx="217.5" cy="426.8" r="10"/><circle class="leafy ring mark" cx="217.5" cy="426.8" r="5"/></g>
-<g class="dot"><title>leafy, optimized for speed, 10 components: 31,758 B, built in 1.21 s (runs: 1.37 s, 1.21 s, 1.02 s)</title>
-<circle class="hit" cx="303" cy="415.4" r="10"/><circle class="leafy ring mark" cx="303" cy="415.4" r="5"/></g>
-<g class="dot"><title>leafy, optimized for speed, 20 components: 35,512 B, built in 1.56 s (runs: 2.46 s, 1.49 s, 1.56 s)</title>
-<circle class="hit" cx="336.8" cy="394.8" r="10"/><circle class="leafy ring mark" cx="336.8" cy="394.8" r="5"/></g>
-<g class="dot"><title>leafy, optimized for speed, 30 components: 37,858 B, built in 1.58 s (runs: 1.89 s, 1.58 s, 1.42 s)</title>
-<circle class="hit" cx="356.2" cy="393.7" r="10"/><circle class="leafy ring mark" cx="356.2" cy="393.7" r="5"/></g>
-<g class="dot"><title>leafy, optimized for speed, 40 components: 39,450 B, built in 2.08 s (runs: 1.85 s, 2.1 s, 2.08 s)</title>
+<polyline class="line line-leafy" points="217.5,429.3 303.1,418.8 336.5,398.2 356.1,393.0 368.7,371.7 387.4,379.8 403.7,371.8 414.1,368.6 425.5,358.5 438.5,346.3 444.1,351.8"/>
+<polyline class="line line-leafy" points="168.0,379.4 246.6,373.5 277.6,355.1 296.1,351.6 305.5,356.3 320.7,350.5 335.6,337.1 345.3,341.7 355.4,331.3 367.7,325.0 373.4,326.4"/>
+<polyline class="line line-yew" points="541.4,402.6 615.4,370.5 671.1,322.5 707.0,297.3 722.5,287.6 753.1,266.2 777.4,253.6 791.4,245.8 808.1,235.2 827.5,223.4 835.1,218.7"/>
+<polyline class="line line-yew" points="412.6,350.4 488.7,336.8 529.7,308.6 558.2,288.9 570.7,282.3 593.6,268.4 616.1,256.0 626.9,249.2 643.5,238.6 660.5,231.2 667.8,225.5"/>
+<g class="dot"><title>leafy, optimized for speed, 1 component: 23,943 B, built in 1.02 s (runs: 1.93 s, 1.02 s, 0.88 s)</title>
+<circle class="hit" cx="217.5" cy="429.3" r="10"/><circle class="leafy ring mark" cx="217.5" cy="429.3" r="5"/></g>
+<g class="dot"><title>leafy, optimized for speed, 10 components: 31,764 B, built in 1.16 s (runs: 1.26 s, 1.16 s, 1.02 s)</title>
+<circle class="hit" cx="303.1" cy="418.8" r="10"/><circle class="leafy ring mark" cx="303.1" cy="418.8" r="5"/></g>
+<g class="dot"><title>leafy, optimized for speed, 20 components: 35,473 B, built in 1.5 s (runs: 1.48 s, 1.5 s, 1.65 s)</title>
+<circle class="hit" cx="336.5" cy="398.2" r="10"/><circle class="leafy ring mark" cx="336.5" cy="398.2" r="5"/></g>
+<g class="dot"><title>leafy, optimized for speed, 30 components: 37,841 B, built in 1.6 s (runs: 2.82 s, 1.6 s, 1.44 s)</title>
+<circle class="hit" cx="356.1" cy="393" r="10"/><circle class="leafy ring mark" cx="356.1" cy="393" r="5"/></g>
+<g class="dot"><title>leafy, optimized for speed, 40 components: 39,453 B, built in 2.08 s (runs: 1.74 s, 2.08 s, 2.09 s)</title>
 <circle class="hit" cx="368.7" cy="371.7" r="10"/><circle class="leafy ring mark" cx="368.7" cy="371.7" r="5"/></g>
-<g class="dot"><title>leafy, optimized for speed, 50 components: 41,983 B, built in 1.92 s (runs: 3.07 s, 1.92 s, 1.84 s)</title>
-<circle class="hit" cx="387.5" cy="378.2" r="10"/><circle class="leafy ring mark" cx="387.5" cy="378.2" r="5"/></g>
-<g class="dot"><title>leafy, optimized for speed, 60 components: 44,283 B, built in 2.08 s (runs: 1.99 s, 2.08 s, 2.45 s)</title>
-<circle class="hit" cx="403.7" cy="371.6" r="10"/><circle class="leafy ring mark" cx="403.7" cy="371.6" r="5"/></g>
-<g class="dot"><title>leafy, optimized for speed, 70 components: 45,859 B, built in 2.25 s (runs: 2.12 s, 2.25 s, 2.52 s)</title>
-<circle class="hit" cx="414.2" cy="365.3" r="10"/><circle class="leafy ring mark" cx="414.2" cy="365.3" r="5"/></g>
-<g class="dot"><title>leafy, optimized for speed, 80 components: 47,577 B, built in 2.47 s (runs: 2.47 s, 2.46 s, 2.66 s)</title>
-<circle class="hit" cx="425.4" cy="357.5" r="10"/><circle class="leafy ring mark" cx="425.4" cy="357.5" r="5"/></g>
-<g class="dot"><title>leafy, optimized for speed, 90 components: 49,834 B, built in 2.59 s (runs: 2.54 s, 2.77 s, 2.59 s)</title>
-<circle class="hit" cx="439.4" cy="353.8" r="10"/><circle class="leafy ring mark" cx="439.4" cy="353.8" r="5"/></g>
-<g class="dot"><title>leafy, optimized for speed, 100 components: 50,581 B, built in 2.82 s (runs: 2.88 s, 2.68 s, 2.82 s)</title>
-<circle class="hit" cx="443.9" cy="346.8" r="10"/><circle class="leafy ring mark" cx="443.9" cy="346.8" r="5"/></g>
-<text class="muted" x="208.5" y="442.8" font-size="11" text-anchor="end">1</text>
-<text class="muted" x="452.9" y="339.8" font-size="11">100</text>
-<g class="dot"><title>leafy, optimized for size, 1 component: 20,299 B, built in 1.92 s (runs: 1.92 s, 2.2 s, 1.63 s)</title>
-<circle class="hit" cx="167.6" cy="378.3" r="10"/><rect class="leafy ring mark" x="163.6" y="374.3" width="8" height="8" transform="rotate(45 167.6 378.3)"/></g>
-<g class="dot"><title>leafy, optimized for size, 10 components: 26,387 B, built in 2.05 s (runs: 3.49 s, 2.05 s, 2.03 s)</title>
-<circle class="hit" cx="247" cy="372.7" r="10"/><rect class="leafy ring mark" x="243" y="368.7" width="8" height="8" transform="rotate(45 247 372.7)"/></g>
-<g class="dot"><title>leafy, optimized for size, 20 components: 29,232 B, built in 2.52 s (runs: 3.23 s, 2.35 s, 2.52 s)</title>
-<circle class="hit" cx="277.9" cy="356" r="10"/><rect class="leafy ring mark" x="273.9" y="352" width="8" height="8" transform="rotate(45 277.9 356)"/></g>
-<g class="dot"><title>leafy, optimized for size, 30 components: 31,038 B, built in 2.58 s (runs: 3.69 s, 2.58 s, 2.44 s)</title>
-<circle class="hit" cx="296.1" cy="354.2" r="10"/><rect class="leafy ring mark" x="292.1" y="350.2" width="8" height="8" transform="rotate(45 296.1 354.2)"/></g>
-<g class="dot"><title>leafy, optimized for size, 40 components: 31,934 B, built in 2.54 s (runs: 2.54 s, 2.46 s, 2.86 s)</title>
-<circle class="hit" cx="304.7" cy="355.3" r="10"/><rect class="leafy ring mark" x="300.7" y="351.3" width="8" height="8" transform="rotate(45 304.7 355.3)"/></g>
-<g class="dot"><title>leafy, optimized for size, 50 components: 33,666 B, built in 2.82 s (runs: 2.86 s, 2.81 s, 2.82 s)</title>
-<circle class="hit" cx="320.7" cy="346.8" r="10"/><rect class="leafy ring mark" x="316.7" y="342.8" width="8" height="8" transform="rotate(45 320.7 346.8)"/></g>
-<g class="dot"><title>leafy, optimized for size, 60 components: 35,368 B, built in 3.01 s (runs: 3.01 s, 3.25 s, 2.94 s)</title>
-<circle class="hit" cx="335.6" cy="341.6" r="10"/><rect class="leafy ring mark" x="331.6" y="337.6" width="8" height="8" transform="rotate(45 335.6 341.6)"/></g>
-<g class="dot"><title>leafy, optimized for size, 70 components: 36,422 B, built in 3.13 s (runs: 3.2 s, 3.13 s, 3.12 s)</title>
-<circle class="hit" cx="344.5" cy="338.5" r="10"/><rect class="leafy ring mark" x="340.5" y="334.5" width="8" height="8" transform="rotate(45 344.5 338.5)"/></g>
-<g class="dot"><title>leafy, optimized for size, 80 components: 37,698 B, built in 3.48 s (runs: 3.48 s, 3.64 s, 3.31 s)</title>
-<circle class="hit" cx="354.9" cy="329.8" r="10"/><rect class="leafy ring mark" x="350.9" y="325.8" width="8" height="8" transform="rotate(45 354.9 329.8)"/></g>
-<g class="dot"><title>leafy, optimized for size, 90 components: 39,290 B, built in 3.75 s (runs: 3.72 s, 3.75 s, 3.96 s)</title>
-<circle class="hit" cx="367.4" cy="323.7" r="10"/><rect class="leafy ring mark" x="363.4" y="319.7" width="8" height="8" transform="rotate(45 367.4 323.7)"/></g>
-<g class="dot"><title>leafy, optimized for size, 100 components: 40,102 B, built in 3.74 s (runs: 3.67 s, 3.74 s, 4.03 s)</title>
-<circle class="hit" cx="373.6" cy="323.9" r="10"/><rect class="leafy ring mark" x="369.6" y="319.9" width="8" height="8" transform="rotate(45 373.6 323.9)"/></g>
-<text class="muted" x="158.6" y="394.3" font-size="11" text-anchor="end">1</text>
-<text class="muted" x="382.6" y="316.9" font-size="11">100</text>
-<g class="dot"><title>yew, optimized for speed, 1 component: 69,793 B, built in 1.44 s (runs: 1.62 s, 1.44 s, 1.33 s)</title>
-<circle class="hit" cx="541.4" cy="401.5" r="10"/><circle class="yew ring mark" cx="541.4" cy="401.5" r="5"/></g>
-<g class="dot"><title>yew, optimized for speed, 10 components: 89,149 B, built in 2.08 s (runs: 2.03 s, 2.08 s, 2.46 s)</title>
-<circle class="hit" cx="615.4" cy="371.6" r="10"/><circle class="yew ring mark" cx="615.4" cy="371.6" r="5"/></g>
-<g class="dot"><title>yew, optimized for speed, 20 components: 107,149 B, built in 3.9 s (runs: 3.8 s, 4.08 s, 3.9 s)</title>
-<circle class="hit" cx="671.1" cy="320.5" r="10"/><circle class="yew ring mark" cx="671.1" cy="320.5" r="5"/></g>
-<g class="dot"><title>yew, optimized for speed, 30 components: 120,649 B, built in 5.31 s (runs: 5.45 s, 5.31 s, 5.31 s)</title>
-<circle class="hit" cx="707" cy="295.5" r="10"/><circle class="yew ring mark" cx="707" cy="295.5" r="5"/></g>
-<g class="dot"><title>yew, optimized for speed, 40 components: 126,979 B, built in 6.02 s (runs: 6.11 s, 6.02 s, 5.72 s)</title>
-<circle class="hit" cx="722.5" cy="285.3" r="10"/><circle class="yew ring mark" cx="722.5" cy="285.3" r="5"/></g>
-<g class="dot"><title>yew, optimized for speed, 50 components: 140,508 B, built in 7.73 s (runs: 7.73 s, 7.72 s, 7.84 s)</title>
-<circle class="hit" cx="753.1" cy="265" r="10"/><circle class="yew ring mark" cx="753.1" cy="265" r="5"/></g>
-<g class="dot"><title>yew, optimized for speed, 60 components: 152,229 B, built in 9.08 s (runs: 9.25 s, 9.08 s, 9.08 s)</title>
-<circle class="hit" cx="777.4" cy="251.9" r="10"/><circle class="yew ring mark" cx="777.4" cy="251.9" r="5"/></g>
-<g class="dot"><title>yew, optimized for speed, 70 components: 159,429 B, built in 9.85 s (runs: 9.98 s, 9.81 s, 9.85 s)</title>
-<circle class="hit" cx="791.4" cy="245.3" r="10"/><circle class="yew ring mark" cx="791.4" cy="245.3" r="5"/></g>
-<g class="dot"><title>yew, optimized for speed, 80 components: 168,495 B, built in 11.29 s (runs: 11.29 s, 11.54 s, 11.14 s)</title>
-<circle class="hit" cx="808.1" cy="234.2" r="10"/><circle class="yew ring mark" cx="808.1" cy="234.2" r="5"/></g>
-<g class="dot"><title>yew, optimized for speed, 90 components: 179,622 B, built in 13.21 s (runs: 12.68 s, 13.21 s, 13.26 s)</title>
-<circle class="hit" cx="827.5" cy="221.4" r="10"/><circle class="yew ring mark" cx="827.5" cy="221.4" r="5"/></g>
-<g class="dot"><title>yew, optimized for speed, 100 components: 184,235 B, built in 13.96 s (runs: 14.57 s, 13.96 s, 13.9 s)</title>
-<circle class="hit" cx="835.1" cy="217" r="10"/><circle class="yew ring mark" cx="835.1" cy="217" r="5"/></g>
-<text class="muted" x="532.4" y="417.5" font-size="11" text-anchor="end">1</text>
-<text class="muted" x="844.1" y="210.0" font-size="11">100</text>
-<g class="dot"><title>yew, optimized for size, 1 component: 45,606 B, built in 2.76 s (runs: 2.76 s, 2.64 s, 3.06 s)</title>
-<circle class="hit" cx="412.6" cy="348.7" r="10"/><rect class="yew ring mark" x="408.6" y="344.7" width="8" height="8" transform="rotate(45 412.6 348.7)"/></g>
-<g class="dot"><title>yew, optimized for size, 10 components: 58,649 B, built in 3.31 s (runs: 3.54 s, 3.23 s, 3.31 s)</title>
-<circle class="hit" cx="488.7" cy="333.8" r="10"/><rect class="yew ring mark" x="484.7" y="329.8" width="8" height="8" transform="rotate(45 488.7 333.8)"/></g>
-<g class="dot"><title>yew, optimized for size, 20 components: 67,164 B, built in 4.71 s (runs: 4.73 s, 4.63 s, 4.71 s)</title>
-<circle class="hit" cx="529.7" cy="305.3" r="10"/><rect class="yew ring mark" x="525.7" y="301.3" width="8" height="8" transform="rotate(45 529.7 305.3)"/></g>
-<g class="dot"><title>yew, optimized for size, 30 components: 73,795 B, built in 5.85 s (runs: 5.85 s, 5.71 s, 6.1 s)</title>
-<circle class="hit" cx="558.2" cy="287.6" r="10"/><rect class="yew ring mark" x="554.2" y="283.6" width="8" height="8" transform="rotate(45 558.2 287.6)"/></g>
-<g class="dot"><title>yew, optimized for size, 40 components: 76,904 B, built in 6.52 s (runs: 7.03 s, 6.52 s, 6.29 s)</title>
-<circle class="hit" cx="570.7" cy="278.8" r="10"/><rect class="yew ring mark" x="566.7" y="274.8" width="8" height="8" transform="rotate(45 570.7 278.8)"/></g>
-<g class="dot"><title>yew, optimized for size, 50 components: 82,939 B, built in 7.52 s (runs: 7.52 s, 7.53 s, 7.36 s)</title>
-<circle class="hit" cx="593.6" cy="267.2" r="10"/><rect class="yew ring mark" x="589.6" y="263.2" width="8" height="8" transform="rotate(45 593.6 267.2)"/></g>
-<g class="dot"><title>yew, optimized for size, 60 components: 89,357 B, built in 8.86 s (runs: 8.86 s, 8.49 s, 9.07 s)</title>
-<circle class="hit" cx="616.1" cy="253.9" r="10"/><rect class="yew ring mark" x="612.1" y="249.9" width="8" height="8" transform="rotate(45 616.1 253.9)"/></g>
-<g class="dot"><title>yew, optimized for size, 70 components: 92,600 B, built in 9.85 s (runs: 9.85 s, 9.55 s, 10.06 s)</title>
-<circle class="hit" cx="626.9" cy="245.3" r="10"/><rect class="yew ring mark" x="622.9" y="241.3" width="8" height="8" transform="rotate(45 626.9 245.3)"/></g>
-<g class="dot"><title>yew, optimized for size, 80 components: 97,804 B, built in 10.9 s (runs: 11.58 s, 10.88 s, 10.9 s)</title>
-<circle class="hit" cx="643.5" cy="237.1" r="10"/><rect class="yew ring mark" x="639.5" y="233.1" width="8" height="8" transform="rotate(45 643.5 237.1)"/></g>
-<g class="dot"><title>yew, optimized for size, 90 components: 103,461 B, built in 12.08 s (runs: 12.36 s, 11.81 s, 12.08 s)</title>
-<circle class="hit" cx="660.5" cy="228.7" r="10"/><rect class="yew ring mark" x="656.5" y="224.7" width="8" height="8" transform="rotate(45 660.5 228.7)"/></g>
-<g class="dot"><title>yew, optimized for size, 100 components: 105,995 B, built in 12.83 s (runs: 12.85 s, 12.83 s, 12.74 s)</title>
-<circle class="hit" cx="667.8" cy="223.8" r="10"/><rect class="yew ring mark" x="663.8" y="219.8" width="8" height="8" transform="rotate(45 667.8 223.8)"/></g>
-<text class="muted" x="403.6" y="364.7" font-size="11" text-anchor="end">1</text>
-<text class="muted" x="676.8" y="216.8" font-size="11">100</text>
+<g class="dot"><title>leafy, optimized for speed, 50 components: 41,966 B, built in 1.88 s (runs: 3.08 s, 1.88 s, 1.8 s)</title>
+<circle class="hit" cx="387.4" cy="379.8" r="10"/><circle class="leafy ring mark" cx="387.4" cy="379.8" r="5"/></g>
+<g class="dot"><title>leafy, optimized for speed, 60 components: 44,286 B, built in 2.08 s (runs: 1.91 s, 2.08 s, 2.3 s)</title>
+<circle class="hit" cx="403.7" cy="371.8" r="10"/><circle class="leafy ring mark" cx="403.7" cy="371.8" r="5"/></g>
+<g class="dot"><title>leafy, optimized for speed, 70 components: 45,845 B, built in 2.16 s (runs: 2 s, 2.16 s, 2.38 s)</title>
+<circle class="hit" cx="414.1" cy="368.6" r="10"/><circle class="leafy ring mark" cx="414.1" cy="368.6" r="5"/></g>
+<g class="dot"><title>leafy, optimized for speed, 80 components: 47,599 B, built in 2.44 s (runs: 2.44 s, 2.34 s, 2.57 s)</title>
+<circle class="hit" cx="425.5" cy="358.5" r="10"/><circle class="leafy ring mark" cx="425.5" cy="358.5" r="5"/></g>
+<g class="dot"><title>leafy, optimized for speed, 90 components: 49,687 B, built in 2.84 s (runs: 2.52 s, 3.08 s, 2.84 s)</title>
+<circle class="hit" cx="438.5" cy="346.3" r="10"/><circle class="leafy ring mark" cx="438.5" cy="346.3" r="5"/></g>
+<g class="dot"><title>leafy, optimized for speed, 100 components: 50,608 B, built in 2.66 s (runs: 2.9 s, 2.63 s, 2.66 s)</title>
+<circle class="hit" cx="444.1" cy="351.8" r="10"/><circle class="leafy ring mark" cx="444.1" cy="351.8" r="5"/></g>
+<text class="muted" x="208.5" y="445.3" font-size="11" text-anchor="end">1</text>
+<text class="muted" x="453.1" y="344.8" font-size="11">100</text>
+<g class="dot"><title>leafy, optimized for size, 1 component: 20,331 B, built in 1.89 s (runs: 1.89 s, 2.15 s, 1.6 s)</title>
+<circle class="hit" cx="168" cy="379.4" r="10"/><rect class="leafy ring mark" x="164" y="375.4" width="8" height="8" transform="rotate(45 168 379.4)"/></g>
+<g class="dot"><title>leafy, optimized for size, 10 components: 26,359 B, built in 2.03 s (runs: 3.09 s, 2.03 s, 2.03 s)</title>
+<circle class="hit" cx="246.6" cy="373.5" r="10"/><rect class="leafy ring mark" x="242.6" y="369.5" width="8" height="8" transform="rotate(45 246.6 373.5)"/></g>
+<g class="dot"><title>leafy, optimized for size, 20 components: 29,202 B, built in 2.55 s (runs: 3.34 s, 2.33 s, 2.55 s)</title>
+<circle class="hit" cx="277.6" cy="355.1" r="10"/><rect class="leafy ring mark" x="273.6" y="351.1" width="8" height="8" transform="rotate(45 277.6 355.1)"/></g>
+<g class="dot"><title>leafy, optimized for size, 30 components: 31,035 B, built in 2.66 s (runs: 2.59 s, 2.91 s, 2.66 s)</title>
+<circle class="hit" cx="296.1" cy="351.6" r="10"/><rect class="leafy ring mark" x="292.1" y="347.6" width="8" height="8" transform="rotate(45 296.1 351.6)"/></g>
+<g class="dot"><title>leafy, optimized for size, 40 components: 32,014 B, built in 2.51 s (runs: 2.51 s, 2.4 s, 2.85 s)</title>
+<circle class="hit" cx="305.5" cy="356.3" r="10"/><rect class="leafy ring mark" x="301.5" y="352.3" width="8" height="8" transform="rotate(45 305.5 356.3)"/></g>
+<g class="dot"><title>leafy, optimized for size, 50 components: 33,662 B, built in 2.7 s (runs: 2.6 s, 2.7 s, 2.84 s)</title>
+<circle class="hit" cx="320.7" cy="350.5" r="10"/><rect class="leafy ring mark" x="316.7" y="346.5" width="8" height="8" transform="rotate(45 320.7 350.5)"/></g>
+<g class="dot"><title>leafy, optimized for size, 60 components: 35,360 B, built in 3.18 s (runs: 3.84 s, 3.18 s, 2.96 s)</title>
+<circle class="hit" cx="335.6" cy="337.1" r="10"/><rect class="leafy ring mark" x="331.6" y="333.1" width="8" height="8" transform="rotate(45 335.6 337.1)"/></g>
+<g class="dot"><title>leafy, optimized for size, 70 components: 36,523 B, built in 3.01 s (runs: 3.14 s, 3.01 s, 2.93 s)</title>
+<circle class="hit" cx="345.3" cy="341.7" r="10"/><rect class="leafy ring mark" x="341.3" y="337.7" width="8" height="8" transform="rotate(45 345.3 341.7)"/></g>
+<g class="dot"><title>leafy, optimized for size, 80 components: 37,762 B, built in 3.42 s (runs: 3.42 s, 3.55 s, 3.27 s)</title>
+<circle class="hit" cx="355.4" cy="331.3" r="10"/><rect class="leafy ring mark" x="351.4" y="327.3" width="8" height="8" transform="rotate(45 355.4 331.3)"/></g>
+<g class="dot"><title>leafy, optimized for size, 90 components: 39,324 B, built in 3.69 s (runs: 3.69 s, 4.04 s, 3.67 s)</title>
+<circle class="hit" cx="367.7" cy="325" r="10"/><rect class="leafy ring mark" x="363.7" y="321" width="8" height="8" transform="rotate(45 367.7 325)"/></g>
+<g class="dot"><title>leafy, optimized for size, 100 components: 40,071 B, built in 3.63 s (runs: 3.62 s, 3.63 s, 3.8 s)</title>
+<circle class="hit" cx="373.4" cy="326.4" r="10"/><rect class="leafy ring mark" x="369.4" y="322.4" width="8" height="8" transform="rotate(45 373.4 326.4)"/></g>
+<text class="muted" x="159.0" y="395.4" font-size="11" text-anchor="end">1</text>
+<text class="muted" x="382.4" y="319.4" font-size="11">100</text>
+<g class="dot"><title>yew, optimized for speed, 1 component: 69,793 B, built in 1.42 s (runs: 1.65 s, 1.42 s, 1.36 s)</title>
+<circle class="hit" cx="541.4" cy="402.6" r="10"/><circle class="yew ring mark" cx="541.4" cy="402.6" r="5"/></g>
+<g class="dot"><title>yew, optimized for speed, 10 components: 89,149 B, built in 2.11 s (runs: 2 s, 2.11 s, 2.71 s)</title>
+<circle class="hit" cx="615.4" cy="370.5" r="10"/><circle class="yew ring mark" cx="615.4" cy="370.5" r="5"/></g>
+<g class="dot"><title>yew, optimized for speed, 20 components: 107,149 B, built in 3.81 s (runs: 3.66 s, 3.91 s, 3.81 s)</title>
+<circle class="hit" cx="671.1" cy="322.5" r="10"/><circle class="yew ring mark" cx="671.1" cy="322.5" r="5"/></g>
+<g class="dot"><title>yew, optimized for speed, 30 components: 120,649 B, built in 5.2 s (runs: 5.25 s, 5.2 s, 5.14 s)</title>
+<circle class="hit" cx="707" cy="297.3" r="10"/><circle class="yew ring mark" cx="707" cy="297.3" r="5"/></g>
+<g class="dot"><title>yew, optimized for speed, 40 components: 126,979 B, built in 5.85 s (runs: 5.85 s, 5.92 s, 5.67 s)</title>
+<circle class="hit" cx="722.5" cy="287.6" r="10"/><circle class="yew ring mark" cx="722.5" cy="287.6" r="5"/></g>
+<g class="dot"><title>yew, optimized for speed, 50 components: 140,508 B, built in 7.61 s (runs: 7.61 s, 7.58 s, 7.88 s)</title>
+<circle class="hit" cx="753.1" cy="266.2" r="10"/><circle class="yew ring mark" cx="753.1" cy="266.2" r="5"/></g>
+<g class="dot"><title>yew, optimized for speed, 60 components: 152,229 B, built in 8.9 s (runs: 8.9 s, 8.88 s, 9.06 s)</title>
+<circle class="hit" cx="777.4" cy="253.6" r="10"/><circle class="yew ring mark" cx="777.4" cy="253.6" r="5"/></g>
+<g class="dot"><title>yew, optimized for speed, 70 components: 159,429 B, built in 9.78 s (runs: 9.78 s, 9.78 s, 10.01 s)</title>
+<circle class="hit" cx="791.4" cy="245.8" r="10"/><circle class="yew ring mark" cx="791.4" cy="245.8" r="5"/></g>
+<g class="dot"><title>yew, optimized for speed, 80 components: 168,495 B, built in 11.16 s (runs: 11.16 s, 11.71 s, 11.04 s)</title>
+<circle class="hit" cx="808.1" cy="235.2" r="10"/><circle class="yew ring mark" cx="808.1" cy="235.2" r="5"/></g>
+<g class="dot"><title>yew, optimized for speed, 90 components: 179,622 B, built in 12.9 s (runs: 12.27 s, 12.9 s, 12.94 s)</title>
+<circle class="hit" cx="827.5" cy="223.4" r="10"/><circle class="yew ring mark" cx="827.5" cy="223.4" r="5"/></g>
+<g class="dot"><title>yew, optimized for speed, 100 components: 184,235 B, built in 13.67 s (runs: 13.67 s, 13.67 s, 13.66 s)</title>
+<circle class="hit" cx="835.1" cy="218.7" r="10"/><circle class="yew ring mark" cx="835.1" cy="218.7" r="5"/></g>
+<text class="muted" x="532.4" y="418.6" font-size="11" text-anchor="end">1</text>
+<text class="muted" x="844.1" y="211.7" font-size="11">100</text>
+<g class="dot"><title>yew, optimized for size, 1 component: 45,606 B, built in 2.7 s (runs: 2.7 s, 2.56 s, 2.84 s)</title>
+<circle class="hit" cx="412.6" cy="350.4" r="10"/><rect class="yew ring mark" x="408.6" y="346.4" width="8" height="8" transform="rotate(45 412.6 350.4)"/></g>
+<g class="dot"><title>yew, optimized for size, 10 components: 58,649 B, built in 3.19 s (runs: 3.19 s, 3.17 s, 3.29 s)</title>
+<circle class="hit" cx="488.7" cy="336.8" r="10"/><rect class="yew ring mark" x="484.7" y="332.8" width="8" height="8" transform="rotate(45 488.7 336.8)"/></g>
+<g class="dot"><title>yew, optimized for size, 20 components: 67,164 B, built in 4.52 s (runs: 4.28 s, 4.52 s, 4.82 s)</title>
+<circle class="hit" cx="529.7" cy="308.6" r="10"/><rect class="yew ring mark" x="525.7" y="304.6" width="8" height="8" transform="rotate(45 529.7 308.6)"/></g>
+<g class="dot"><title>yew, optimized for size, 30 components: 73,795 B, built in 5.76 s (runs: 5.77 s, 5.56 s, 5.76 s)</title>
+<circle class="hit" cx="558.2" cy="288.9" r="10"/><rect class="yew ring mark" x="554.2" y="284.9" width="8" height="8" transform="rotate(45 558.2 288.9)"/></g>
+<g class="dot"><title>yew, optimized for size, 40 components: 76,904 B, built in 6.25 s (runs: 6.56 s, 6.25 s, 6.25 s)</title>
+<circle class="hit" cx="570.7" cy="282.3" r="10"/><rect class="yew ring mark" x="566.7" y="278.3" width="8" height="8" transform="rotate(45 570.7 282.3)"/></g>
+<g class="dot"><title>yew, optimized for size, 50 components: 82,939 B, built in 7.41 s (runs: 7.41 s, 7.55 s, 7.1 s)</title>
+<circle class="hit" cx="593.6" cy="268.4" r="10"/><rect class="yew ring mark" x="589.6" y="264.4" width="8" height="8" transform="rotate(45 593.6 268.4)"/></g>
+<g class="dot"><title>yew, optimized for size, 60 components: 89,357 B, built in 8.64 s (runs: 8.64 s, 8.26 s, 8.81 s)</title>
+<circle class="hit" cx="616.1" cy="256" r="10"/><rect class="yew ring mark" x="612.1" y="252" width="8" height="8" transform="rotate(45 616.1 256)"/></g>
+<g class="dot"><title>yew, optimized for size, 70 components: 92,600 B, built in 9.39 s (runs: 9.39 s, 9.34 s, 9.46 s)</title>
+<circle class="hit" cx="626.9" cy="249.2" r="10"/><rect class="yew ring mark" x="622.9" y="245.2" width="8" height="8" transform="rotate(45 626.9 249.2)"/></g>
+<g class="dot"><title>yew, optimized for size, 80 components: 97,804 B, built in 10.69 s (runs: 10.69 s, 10.62 s, 10.85 s)</title>
+<circle class="hit" cx="643.5" cy="238.6" r="10"/><rect class="yew ring mark" x="639.5" y="234.6" width="8" height="8" transform="rotate(45 643.5 238.6)"/></g>
+<g class="dot"><title>yew, optimized for size, 90 components: 103,461 B, built in 11.72 s (runs: 12.13 s, 11.53 s, 11.72 s)</title>
+<circle class="hit" cx="660.5" cy="231.2" r="10"/><rect class="yew ring mark" x="656.5" y="227.2" width="8" height="8" transform="rotate(45 660.5 231.2)"/></g>
+<g class="dot"><title>yew, optimized for size, 100 components: 105,995 B, built in 12.57 s (runs: 12.7 s, 12.57 s, 12.32 s)</title>
+<circle class="hit" cx="667.8" cy="225.5" r="10"/><rect class="yew ring mark" x="663.8" y="221.5" width="8" height="8" transform="rotate(45 667.8 225.5)"/></g>
+<text class="muted" x="403.6" y="366.4" font-size="11" text-anchor="end">1</text>
+<text class="muted" x="676.8" y="218.5" font-size="11">100</text>
 <text class="ink" x="88" y="484" font-size="15" font-weight="600">With 1 component: 2.6× smaller, 1.4× faster to build</text>
-<text class="ink" x="848" y="164" font-size="15" font-weight="600" text-anchor="end">With 100 components: 3.1× smaller, 4.1× faster to build</text>
+<text class="ink" x="848" y="164" font-size="15" font-weight="600" text-anchor="end">With 100 components: 3.1× smaller, 4.2× faster to build</text>
 </svg>

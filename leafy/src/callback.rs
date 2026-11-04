@@ -143,6 +143,43 @@ impl<IN, OUT> Drop for Callback<IN, OUT> {
     }
 }
 
+/// A [`Callback`] of some type, kept to be cloned as that type again (see
+/// `Scope::callback`).
+pub(crate) struct AnyCallback(NonNull<Header>);
+
+impl Clone for AnyCallback {
+    fn clone(&self) -> Self {
+        inc(self.0);
+        Self(self.0)
+    }
+}
+
+impl Drop for AnyCallback {
+    fn drop(&mut self) {
+        dec(self.0);
+    }
+}
+
+impl<IN, OUT> Callback<IN, OUT> {
+    pub(crate) fn into_any(self) -> AnyCallback {
+        let any = AnyCallback(self.ptr);
+        std::mem::forget(self);
+        any
+    }
+
+    /// # Safety
+    ///
+    /// `any` must be from a `Callback<IN, OUT>` (up to lifetimes).
+    pub(crate) unsafe fn from_any(any: AnyCallback) -> Self {
+        let ptr = any.0;
+        std::mem::forget(any);
+        Self {
+            ptr,
+            _marker: PhantomData,
+        }
+    }
+}
+
 impl<IN, OUT> PartialEq for Callback<IN, OUT> {
     #[inline]
     fn eq(&self, other: &Self) -> bool {

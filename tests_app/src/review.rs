@@ -531,3 +531,87 @@ pub async fn test_pending() -> TestResult {
     tick().await;
     Ok(())
 }
+
+// A struct component's callback of a function with no state is the same
+// every render: a child given only it isn't re-rendered. One that captures
+// is new each render, as in yew.
+thread_local! {
+    static CHILD_RENDERS: RefCell<Vec<&'static str>> = const { RefCell::new(Vec::new()) };
+    static PARENT: RefCell<Option<leafy::html::Scope<MemoParent>>> = const { RefCell::new(None) };
+}
+
+#[derive(Properties, PartialEq)]
+pub struct MemoChildProps {
+    name: &'static str,
+    on: Callback<()>,
+}
+
+#[function_component(MemoChild)]
+fn memo_child(props: &MemoChildProps) -> Html {
+    CHILD_RENDERS.with_borrow_mut(|r| r.push(props.name));
+    let on = props.on.reform(|_: MouseEvent| ());
+    html! { <button id={props.name} onclick={on}/> }
+}
+
+pub enum MemoMsg {
+    Render,
+    Clicked(&'static str),
+}
+
+pub struct MemoParent {
+    n: u32,
+}
+
+impl Component for MemoParent {
+    type Message = MemoMsg;
+    type Properties = ();
+
+    fn create(ctx: &Context<Self>) -> Self {
+        PARENT.with_borrow_mut(|p| *p = Some(ctx.link().clone()));
+        Self { n: 0 }
+    }
+
+    fn update(&mut self, _: &Context<Self>, msg: MemoMsg) -> bool {
+        match msg {
+            MemoMsg::Render => self.n += 1,
+            MemoMsg::Clicked(name) => log(name),
+        }
+        true
+    }
+
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let n = self.n;
+        // The same function's callback and batch callback: not one callback.
+        fn stateless(_: ()) -> MemoMsg {
+            MemoMsg::Clicked("stateless")
+        }
+        let batch = |_: ()| Some(MemoMsg::Clicked("batch"));
+        html! {
+            <div data-n={n.to_string()}>
+                <MemoChild name="stateless" on={ctx.link().callback(stateless)}/>
+                <MemoChild name="batch" on={ctx.link().batch_callback(batch)}/>
+                // (Uses `n`: `let _ = n` wouldn't capture it.)
+                <MemoChild name="capturing" on={ctx.link().callback(move |_| {
+                    MemoMsg::Clicked(if n < 100 { "capturing" } else { "never" })
+                })}/>
+            </div>
+        }
+    }
+}
+
+pub async fn test_memo_callback() -> TestResult {
+    let el = mount::<MemoParent>(());
+    tick().await;
+    let renders = || CHILD_RENDERS.with_borrow_mut(std::mem::take);
+    eq!(renders(), vec!["stateless", "batch", "capturing"]);
+    PARENT.with_borrow(|p| p.as_ref().unwrap().send_message(MemoMsg::Render));
+    tick().await;
+    eq!(q(&el, "div").get_attribute("data-n"), Some("1".to_owned()));
+    eq!(renders(), vec!["capturing"]);
+    click(&el, "#stateless");
+    click(&el, "#batch");
+    click(&el, "#capturing");
+    tick().await;
+    eq!(take_log(), vec!["stateless", "batch", "capturing"]);
+    Ok(())
+}

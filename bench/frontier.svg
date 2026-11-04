@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 898 586" width="898" height="586" role="img" aria-labelledby="t d" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
 <title id="t">Size and speed of each build: leafy and yew</title>
-<desc id="d">TodoMVC, leafy, speed profile: 63,644 bytes, 59.1 ms; TodoMVC, leafy, size profile: 41,997 bytes, 62.9 ms; TodoMVC, yew, speed profile: 104,215 bytes, 118.3 ms; TodoMVC, yew, size profile: 67,620 bytes, 138.7 ms; TodoMVC (struct), leafy, speed profile: 61,875 bytes, 53.2 ms; TodoMVC (struct), leafy, size profile: 40,512 bytes, 55.4 ms; TodoMVC (struct), yew, speed profile: 97,213 bytes, 115.9 ms; TodoMVC (struct), yew, size profile: 61,844 bytes, 120.5 ms; js-framework-benchmark, leafy, speed profile: 24,320 bytes, 562.8 ms; js-framework-benchmark, leafy, size profile: 22,298 bytes, 563.7 ms; js-framework-benchmark, yew, speed profile: 66,748 bytes, 852.2 ms; js-framework-benchmark, yew, size profile: 49,217 bytes, 871.4 ms; js-framework-benchmark (struct), leafy, speed profile: 26,411 bytes, 569.8 ms; js-framework-benchmark (struct), leafy, size profile: 24,244 bytes, 575.4 ms; js-framework-benchmark (struct), yew, speed profile: 65,806 bytes, 845 ms; js-framework-benchmark (struct), yew, size profile: 48,304 bytes, 842.5 ms; Game of Life, leafy, speed profile: 27,188 bytes, 31.2 ms; Game of Life, leafy, size profile: 24,272 bytes, 38.8 ms; Game of Life, yew, speed profile: 66,260 bytes, 68.7 ms; Game of Life, yew, size profile: 48,656 bytes, 64.1 ms</desc>
+<desc id="d">TodoMVC, leafy, speed profile: 63,675 bytes, 56.5 ms; TodoMVC, leafy, size profile: 42,055 bytes, 61.3 ms; TodoMVC, yew, speed profile: 104,215 bytes, 125.5 ms; TodoMVC, yew, size profile: 67,620 bytes, 134.8 ms; TodoMVC (struct), leafy, speed profile: 62,269 bytes, 52 ms; TodoMVC (struct), leafy, size profile: 40,856 bytes, 55.8 ms; TodoMVC (struct), yew, speed profile: 97,213 bytes, 113.7 ms; TodoMVC (struct), yew, size profile: 61,844 bytes, 121 ms; js-framework-benchmark, leafy, speed profile: 24,397 bytes, 547.6 ms; js-framework-benchmark, leafy, size profile: 22,344 bytes, 570.6 ms; js-framework-benchmark, yew, speed profile: 66,748 bytes, 818.9 ms; js-framework-benchmark, yew, size profile: 49,217 bytes, 830.1 ms; js-framework-benchmark (struct), leafy, speed profile: 26,900 bytes, 552.2 ms; js-framework-benchmark (struct), leafy, size profile: 24,690 bytes, 553.9 ms; js-framework-benchmark (struct), yew, speed profile: 65,806 bytes, 798.8 ms; js-framework-benchmark (struct), yew, size profile: 48,304 bytes, 816.7 ms; Game of Life, leafy, speed profile: 27,639 bytes, 30.6 ms; Game of Life, leafy, size profile: 24,662 bytes, 33.7 ms; Game of Life, yew, speed profile: 66,260 bytes, 50.3 ms; Game of Life, yew, size profile: 48,656 bytes, 59.3 ms</desc>
 <style>
   .surface { fill: #fcfcfb; }
   .ink { fill: #0b0b0b; }
@@ -57,17 +57,17 @@
 <text class="muted" x="58" y="138" font-size="11" text-anchor="end">150 ms</text>
 <line class="axis" x1="64" y1="284" x2="274" y2="284"/>
 <line class="axis" x1="64" y1="134" x2="64" y2="284"/>
-<line class="line line-leafy" x1="153.1" y1="224.9" x2="122.8" y2="221.1"/>
-<line class="line line-yew" x1="209.9" y1="165.7" x2="158.7" y2="145.3"/>
-<text class="ink" x="268" y="276" font-size="12.5" font-weight="600" text-anchor="end">1.6× smaller, 2.1× faster</text>
-<g class="dot"><title>TodoMVC, leafy, optimized for speed: 63,644 B, 59.1 ms</title>
-<circle class="hit" cx="153.1" cy="224.9" r="12"/><circle class="leafy ring mark" cx="153.1" cy="224.9" r="6"/></g>
-<g class="dot"><title>TodoMVC, leafy, optimized for size: 41,997 B, 62.9 ms</title>
-<circle class="hit" cx="122.8" cy="221.1" r="12"/><rect class="leafy ring mark" x="117.8" y="216.1" width="10" height="10" transform="rotate(45 122.8 221.1)"/></g>
-<g class="dot"><title>TodoMVC, yew, optimized for speed: 104,215 B, 118.3 ms</title>
-<circle class="hit" cx="209.9" cy="165.7" r="12"/><circle class="yew ring mark" cx="209.9" cy="165.7" r="6"/></g>
-<g class="dot"><title>TodoMVC, yew, optimized for size: 67,620 B, 138.7 ms</title>
-<circle class="hit" cx="158.7" cy="145.3" r="12"/><rect class="yew ring mark" x="153.7" y="140.3" width="10" height="10" transform="rotate(45 158.7 145.3)"/></g>
+<line class="line line-leafy" x1="153.1" y1="227.5" x2="122.9" y2="222.7"/>
+<line class="line line-yew" x1="209.9" y1="158.5" x2="158.7" y2="149.2"/>
+<text class="ink" x="268" y="276" font-size="12.5" font-weight="600" text-anchor="end">1.6× smaller, 2.2× faster</text>
+<g class="dot"><title>TodoMVC, leafy, optimized for speed: 63,675 B, 56.5 ms</title>
+<circle class="hit" cx="153.1" cy="227.5" r="12"/><circle class="leafy ring mark" cx="153.1" cy="227.5" r="6"/></g>
+<g class="dot"><title>TodoMVC, leafy, optimized for size: 42,055 B, 61.3 ms</title>
+<circle class="hit" cx="122.9" cy="222.7" r="12"/><rect class="leafy ring mark" x="117.9" y="217.7" width="10" height="10" transform="rotate(45 122.9 222.7)"/></g>
+<g class="dot"><title>TodoMVC, yew, optimized for speed: 104,215 B, 125.5 ms</title>
+<circle class="hit" cx="209.9" cy="158.5" r="12"/><circle class="yew ring mark" cx="209.9" cy="158.5" r="6"/></g>
+<g class="dot"><title>TodoMVC, yew, optimized for size: 67,620 B, 134.8 ms</title>
+<circle class="hit" cx="158.7" cy="149.2" r="12"/><rect class="yew ring mark" x="153.7" y="144.2" width="10" height="10" transform="rotate(45 158.7 149.2)"/></g>
 <text class="ink" x="348" y="124" font-size="12.5" font-weight="600">TodoMVC (struct)</text>
 <line class="grid" x1="348" y1="134" x2="348" y2="284"/>
 <text class="muted" x="348" y="300" font-size="11" text-anchor="start">0</text>
@@ -83,17 +83,17 @@
 <text class="muted" x="342" y="138" font-size="11" text-anchor="end">150 ms</text>
 <line class="axis" x1="348" y1="284" x2="558" y2="284"/>
 <line class="axis" x1="348" y1="134" x2="348" y2="284"/>
-<line class="line line-leafy" x1="434.6" y1="230.8" x2="404.7" y2="228.6"/>
-<line class="line line-yew" x1="484.1" y1="168.1" x2="434.6" y2="163.5"/>
+<line class="line line-leafy" x1="435.2" y1="232.0" x2="405.2" y2="228.2"/>
+<line class="line line-yew" x1="484.1" y1="170.3" x2="434.6" y2="163.0"/>
 <text class="ink" x="552" y="276" font-size="12.5" font-weight="600" text-anchor="end">1.5× smaller, 2.2× faster</text>
-<g class="dot"><title>TodoMVC (struct), leafy, optimized for speed: 61,875 B, 53.2 ms</title>
-<circle class="hit" cx="434.6" cy="230.8" r="12"/><circle class="leafy ring mark" cx="434.6" cy="230.8" r="6"/></g>
-<g class="dot"><title>TodoMVC (struct), leafy, optimized for size: 40,512 B, 55.4 ms</title>
-<circle class="hit" cx="404.7" cy="228.6" r="12"/><rect class="leafy ring mark" x="399.7" y="223.6" width="10" height="10" transform="rotate(45 404.7 228.6)"/></g>
-<g class="dot"><title>TodoMVC (struct), yew, optimized for speed: 97,213 B, 115.9 ms</title>
-<circle class="hit" cx="484.1" cy="168.1" r="12"/><circle class="yew ring mark" cx="484.1" cy="168.1" r="6"/></g>
-<g class="dot"><title>TodoMVC (struct), yew, optimized for size: 61,844 B, 120.5 ms</title>
-<circle class="hit" cx="434.6" cy="163.5" r="12"/><rect class="yew ring mark" x="429.6" y="158.5" width="10" height="10" transform="rotate(45 434.6 163.5)"/></g>
+<g class="dot"><title>TodoMVC (struct), leafy, optimized for speed: 62,269 B, 52 ms</title>
+<circle class="hit" cx="435.2" cy="232" r="12"/><circle class="leafy ring mark" cx="435.2" cy="232" r="6"/></g>
+<g class="dot"><title>TodoMVC (struct), leafy, optimized for size: 40,856 B, 55.8 ms</title>
+<circle class="hit" cx="405.2" cy="228.2" r="12"/><rect class="leafy ring mark" x="400.2" y="223.2" width="10" height="10" transform="rotate(45 405.2 228.2)"/></g>
+<g class="dot"><title>TodoMVC (struct), yew, optimized for speed: 97,213 B, 113.7 ms</title>
+<circle class="hit" cx="484.1" cy="170.3" r="12"/><circle class="yew ring mark" cx="484.1" cy="170.3" r="6"/></g>
+<g class="dot"><title>TodoMVC (struct), yew, optimized for size: 61,844 B, 121 ms</title>
+<circle class="hit" cx="434.6" cy="163" r="12"/><rect class="yew ring mark" x="429.6" y="158" width="10" height="10" transform="rotate(45 434.6 163)"/></g>
 <text class="ink" x="632" y="124" font-size="12.5" font-weight="600">js-framework-benchmark</text>
 <line class="grid" x1="632" y1="134" x2="632" y2="284"/>
 <text class="muted" x="632" y="300" font-size="11" text-anchor="start">0</text>
@@ -109,17 +109,17 @@
 <text class="muted" x="626" y="138" font-size="11" text-anchor="end">1 s</text>
 <line class="axis" x1="632" y1="284" x2="842" y2="284"/>
 <line class="axis" x1="632" y1="134" x2="632" y2="284"/>
-<line class="line line-leafy" x1="695.8" y1="199.6" x2="690.5" y2="199.4"/>
-<line class="line line-yew" x1="807.2" y1="156.2" x2="761.2" y2="153.3"/>
+<line class="line line-leafy" x1="696.0" y1="201.9" x2="690.7" y2="198.4"/>
+<line class="line line-yew" x1="807.2" y1="161.2" x2="761.2" y2="159.5"/>
 <text class="ink" x="836" y="276" font-size="12.5" font-weight="600" text-anchor="end">2.5× smaller, 1.5× faster</text>
-<g class="dot"><title>js-framework-benchmark, leafy, optimized for speed: 24,320 B, 562.8 ms</title>
-<circle class="hit" cx="695.8" cy="199.6" r="12"/><circle class="leafy ring mark" cx="695.8" cy="199.6" r="6"/></g>
-<g class="dot"><title>js-framework-benchmark, leafy, optimized for size: 22,298 B, 563.7 ms</title>
-<circle class="hit" cx="690.5" cy="199.4" r="12"/><rect class="leafy ring mark" x="685.5" y="194.4" width="10" height="10" transform="rotate(45 690.5 199.4)"/></g>
-<g class="dot"><title>js-framework-benchmark, yew, optimized for speed: 66,748 B, 852.2 ms</title>
-<circle class="hit" cx="807.2" cy="156.2" r="12"/><circle class="yew ring mark" cx="807.2" cy="156.2" r="6"/></g>
-<g class="dot"><title>js-framework-benchmark, yew, optimized for size: 49,217 B, 871.4 ms</title>
-<circle class="hit" cx="761.2" cy="153.3" r="12"/><rect class="yew ring mark" x="756.2" y="148.3" width="10" height="10" transform="rotate(45 761.2 153.3)"/></g>
+<g class="dot"><title>js-framework-benchmark, leafy, optimized for speed: 24,397 B, 547.6 ms</title>
+<circle class="hit" cx="696" cy="201.9" r="12"/><circle class="leafy ring mark" cx="696" cy="201.9" r="6"/></g>
+<g class="dot"><title>js-framework-benchmark, leafy, optimized for size: 22,344 B, 570.6 ms</title>
+<circle class="hit" cx="690.7" cy="198.4" r="12"/><rect class="leafy ring mark" x="685.7" y="193.4" width="10" height="10" transform="rotate(45 690.7 198.4)"/></g>
+<g class="dot"><title>js-framework-benchmark, yew, optimized for speed: 66,748 B, 818.9 ms</title>
+<circle class="hit" cx="807.2" cy="161.2" r="12"/><circle class="yew ring mark" cx="807.2" cy="161.2" r="6"/></g>
+<g class="dot"><title>js-framework-benchmark, yew, optimized for size: 49,217 B, 830.1 ms</title>
+<circle class="hit" cx="761.2" cy="159.5" r="12"/><rect class="yew ring mark" x="756.2" y="154.5" width="10" height="10" transform="rotate(45 761.2 159.5)"/></g>
 <text class="ink" x="64" y="354" font-size="12.5" font-weight="600">js-framework-benchmark (struct)</text>
 <line class="grid" x1="64" y1="364" x2="64" y2="514"/>
 <text class="muted" x="64" y="530" font-size="11" text-anchor="start">0</text>
@@ -135,17 +135,17 @@
 <text class="muted" x="58" y="368" font-size="11" text-anchor="end">1 s</text>
 <line class="axis" x1="64" y1="514" x2="274" y2="514"/>
 <line class="axis" x1="64" y1="364" x2="64" y2="514"/>
-<line class="line line-leafy" x1="133.3" y1="428.5" x2="127.6" y2="427.7"/>
-<line class="line line-yew" x1="236.7" y1="387.2" x2="190.8" y2="387.6"/>
+<line class="line line-leafy" x1="134.6" y1="431.2" x2="128.8" y2="430.9"/>
+<line class="line line-yew" x1="236.7" y1="394.2" x2="190.8" y2="391.5"/>
 <text class="ink" x="268" y="506" font-size="12.5" font-weight="600" text-anchor="end">2.2× smaller, 1.5× faster</text>
-<g class="dot"><title>js-framework-benchmark (struct), leafy, optimized for speed: 26,411 B, 569.8 ms</title>
-<circle class="hit" cx="133.3" cy="428.5" r="12"/><circle class="leafy ring mark" cx="133.3" cy="428.5" r="6"/></g>
-<g class="dot"><title>js-framework-benchmark (struct), leafy, optimized for size: 24,244 B, 575.4 ms</title>
-<circle class="hit" cx="127.6" cy="427.7" r="12"/><rect class="leafy ring mark" x="122.6" y="422.7" width="10" height="10" transform="rotate(45 127.6 427.7)"/></g>
-<g class="dot"><title>js-framework-benchmark (struct), yew, optimized for speed: 65,806 B, 845 ms</title>
-<circle class="hit" cx="236.7" cy="387.2" r="12"/><circle class="yew ring mark" cx="236.7" cy="387.2" r="6"/></g>
-<g class="dot"><title>js-framework-benchmark (struct), yew, optimized for size: 48,304 B, 842.5 ms</title>
-<circle class="hit" cx="190.8" cy="387.6" r="12"/><rect class="yew ring mark" x="185.8" y="382.6" width="10" height="10" transform="rotate(45 190.8 387.6)"/></g>
+<g class="dot"><title>js-framework-benchmark (struct), leafy, optimized for speed: 26,900 B, 552.2 ms</title>
+<circle class="hit" cx="134.6" cy="431.2" r="12"/><circle class="leafy ring mark" cx="134.6" cy="431.2" r="6"/></g>
+<g class="dot"><title>js-framework-benchmark (struct), leafy, optimized for size: 24,690 B, 553.9 ms</title>
+<circle class="hit" cx="128.8" cy="430.9" r="12"/><rect class="leafy ring mark" x="123.80000000000001" y="425.9" width="10" height="10" transform="rotate(45 128.8 430.9)"/></g>
+<g class="dot"><title>js-framework-benchmark (struct), yew, optimized for speed: 65,806 B, 798.8 ms</title>
+<circle class="hit" cx="236.7" cy="394.2" r="12"/><circle class="yew ring mark" cx="236.7" cy="394.2" r="6"/></g>
+<g class="dot"><title>js-framework-benchmark (struct), yew, optimized for size: 48,304 B, 816.7 ms</title>
+<circle class="hit" cx="190.8" cy="391.5" r="12"/><rect class="yew ring mark" x="185.8" y="386.5" width="10" height="10" transform="rotate(45 190.8 391.5)"/></g>
 <text class="ink" x="348" y="354" font-size="12.5" font-weight="600">Game of Life</text>
 <line class="grid" x1="348" y1="364" x2="348" y2="514"/>
 <text class="muted" x="348" y="530" font-size="11" text-anchor="start">0</text>
@@ -161,15 +161,15 @@
 <text class="muted" x="342" y="368" font-size="11" text-anchor="end">80 ms</text>
 <line class="axis" x1="348" y1="514" x2="558" y2="514"/>
 <line class="axis" x1="348" y1="364" x2="348" y2="514"/>
-<line class="line line-leafy" x1="419.4" y1="455.5" x2="411.7" y2="441.3"/>
-<line class="line line-yew" x1="521.9" y1="385.2" x2="475.7" y2="393.8"/>
-<text class="ink" x="552" y="506" font-size="12.5" font-weight="600" text-anchor="end">2.2× smaller, 1.9× faster</text>
-<g class="dot"><title>Game of Life, leafy, optimized for speed: 27,188 B, 31.2 ms</title>
-<circle class="hit" cx="419.4" cy="455.5" r="12"/><circle class="leafy ring mark" cx="419.4" cy="455.5" r="6"/></g>
-<g class="dot"><title>Game of Life, leafy, optimized for size: 24,272 B, 38.8 ms</title>
-<circle class="hit" cx="411.7" cy="441.3" r="12"/><rect class="leafy ring mark" x="406.7" y="436.3" width="10" height="10" transform="rotate(45 411.7 441.3)"/></g>
-<g class="dot"><title>Game of Life, yew, optimized for speed: 66,260 B, 68.7 ms</title>
-<circle class="hit" cx="521.9" cy="385.2" r="12"/><circle class="yew ring mark" cx="521.9" cy="385.2" r="6"/></g>
-<g class="dot"><title>Game of Life, yew, optimized for size: 48,656 B, 64.1 ms</title>
-<circle class="hit" cx="475.7" cy="393.8" r="12"/><rect class="yew ring mark" x="470.7" y="388.8" width="10" height="10" transform="rotate(45 475.7 393.8)"/></g>
+<line class="line line-leafy" x1="420.6" y1="456.5" x2="412.7" y2="450.7"/>
+<line class="line line-yew" x1="521.9" y1="419.8" x2="475.7" y2="402.8"/>
+<text class="ink" x="552" y="506" font-size="12.5" font-weight="600" text-anchor="end">2.2× smaller, 1.7× faster</text>
+<g class="dot"><title>Game of Life, leafy, optimized for speed: 27,639 B, 30.6 ms</title>
+<circle class="hit" cx="420.6" cy="456.5" r="12"/><circle class="leafy ring mark" cx="420.6" cy="456.5" r="6"/></g>
+<g class="dot"><title>Game of Life, leafy, optimized for size: 24,662 B, 33.7 ms</title>
+<circle class="hit" cx="412.7" cy="450.7" r="12"/><rect class="leafy ring mark" x="407.7" y="445.7" width="10" height="10" transform="rotate(45 412.7 450.7)"/></g>
+<g class="dot"><title>Game of Life, yew, optimized for speed: 66,260 B, 50.3 ms</title>
+<circle class="hit" cx="521.9" cy="419.8" r="12"/><circle class="yew ring mark" cx="521.9" cy="419.8" r="6"/></g>
+<g class="dot"><title>Game of Life, yew, optimized for size: 48,656 B, 59.3 ms</title>
+<circle class="hit" cx="475.7" cy="402.8" r="12"/><rect class="yew ring mark" x="470.7" y="397.8" width="10" height="10" transform="rotate(45 475.7 402.8)"/></g>
 </svg>

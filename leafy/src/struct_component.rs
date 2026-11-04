@@ -1,10 +1,12 @@
 //! Struct components, as yew's `Component`.
 
+use crate::callback::AnyCallback;
 use crate::component::{
     BaseComponent, CompState, Destroy, PropsOf, Thunk, VComp, on_destroy, push_effect, schedule,
     use_slot,
 };
 use crate::{Callback, Html, Properties};
+use std::any::TypeId;
 use std::cell::{Cell, RefCell};
 use std::collections::VecDeque;
 use std::rc::{Rc, Weak};
@@ -48,6 +50,55 @@ struct StructCell<C: Component> {
     vcomp: RefCell<Option<Rc<VComp>>>,
     state: Weak<CompState>,
     first: Cell<bool>,
+    /// The callbacks made of functions with no state (see
+    /// [`Scope::callback`]), by the function's type.
+    callbacks: Callbacks,
+}
+
+type Callbacks = RefCell<Vec<(TypeId, AnyCallback)>>;
+
+/// The callback made of a function with no state, of type `id`, in
+/// `callbacks` (if the component is alive): the same one every time, made by
+/// `make` the first time.
+#[inline(never)]
+fn memo(
+    callbacks: Option<&Callbacks>,
+    id: TypeId,
+    make: Thunk<'_, (), AnyCallback>,
+) -> AnyCallback {
+    let Some(callbacks) = callbacks else {
+        return make.call(());
+    };
+    if let Some((_, cb)) = callbacks.borrow().iter().find(|(i, _)| *i == id) {
+        return cb.clone();
+    }
+    let cb = make.call(());
+    callbacks.borrow_mut().push((id, cb.clone()));
+    cb
+}
+
+/// The key of a [`Scope::batch_callback`]'s function of type `F` (another
+/// than for [`Scope::callback`]'s).
+struct Batch<F>(F);
+
+/// The callback made of a function with no state (whose type `K` is, or
+/// determines), for `scope`'s component: the same one every time (so that
+/// it compares equal, and a child given only it isn't re-rendered), made by
+/// `make` the first time.
+#[inline(always)]
+fn memoized<C: Component, K: 'static, IN, OUT>(
+    scope: &Scope<C>,
+    make: impl FnOnce() -> Callback<IN, OUT>,
+) -> Callback<IN, OUT> {
+    let cell = scope.cell.upgrade();
+    // (A function's type determines its input type, up to lifetimes.)
+    let any = memo(
+        cell.as_ref().map(|c| &c.callbacks),
+        TypeId::of::<K>(),
+        Thunk::new(&mut Some(move |()| make().into_any())),
+    );
+    // SAFETY: made by `make` (now, or for the same `K`, before).
+    unsafe { Callback::from_any(any) }
 }
 
 struct StructDestroy<C: Component>(Rc<StructCell<C>>);
@@ -130,13 +181,25 @@ impl<C: Component> Scope<C> {
     }
 
     /// A callback that sends `f(input)` as a message.
+    ///
+    /// If `f` has no state (as `Msg::Select`, or a closure that captures
+    /// nothing), the component's same callback every time: it then compares
+    /// equal from render to render (yew makes a new one each time), so a
+    /// child given it isn't re-rendered for it.
     pub fn callback<F, IN, M>(&self, f: F) -> Callback<IN>
     where
         M: Into<C::Message>,
         F: Fn(IN) -> M + 'static,
     {
-        let scope = self.clone();
-        Callback::from(move |input| scope.send_message(f(input)))
+        let make = || {
+            let scope = self.clone();
+            Callback::from(move |input| scope.send_message(f(input)))
+        };
+        if size_of::<F>() == 0 {
+            memoized::<C, F, IN, ()>(self, make)
+        } else {
+            make()
+        }
     }
 
     /// The value of the nearest ancestor `ContextProvider<T>`, and a handle
@@ -150,13 +213,23 @@ impl<C: Component> Scope<C> {
     }
 
     /// A callback that sends the messages `f(input)` returns.
+    ///
+    /// (If `f` has no state, the same callback every time, as
+    /// [`callback`](Self::callback).)
     pub fn batch_callback<F, IN, OUT>(&self, f: F) -> Callback<IN>
     where
         OUT: SendAsMessage<C>,
         F: Fn(IN) -> OUT + 'static,
     {
-        let scope = self.clone();
-        Callback::from(move |input| f(input).send(&scope))
+        let make = || {
+            let scope = self.clone();
+            Callback::from(move |input| f(input).send(&scope))
+        };
+        if size_of::<F>() == 0 {
+            memoized::<C, Batch<F>, IN, ()>(self, make)
+        } else {
+            make()
+        }
     }
 }
 
@@ -190,6 +263,7 @@ impl<C: Component> BaseComponent for C {
             vcomp: RefCell::new(None),
             state: Rc::downgrade(state),
             first: Cell::new(true),
+            callbacks: Default::default(),
         })));
         let vcomp = state.vcomp.borrow().clone();
         let old = cell.vcomp.replace(Some(vcomp.clone()));

@@ -963,6 +963,7 @@ async fn run() {
         ("ambiguous_svg", Box::pin(review::test_ambiguous_svg())),
         ("nested_key", Box::pin(review::test_nested_key())),
         ("pending", Box::pin(review::test_pending())),
+        ("memo_callback", Box::pin(review::test_memo_callback())),
         ("reentrant", Box::pin(regressions::test_reentrant())),
         (
             "duplicate_keys",

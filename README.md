@@ -92,6 +92,11 @@ that depends on yew needs a version for leafy.
   is a compile-time warning.
 - A message a struct component sends itself in `create` is handled before
   its first `view`.
+- `ctx.link().callback(f)` (and `batch_callback`), with an `f` that holds
+  nothing (`Msg::Select`, or a closure that captures nothing), returns the
+  component's same callback every time; yew makes a new one. So it compares
+  equal, and a child given it (and otherwise equal properties) isn't
+  re-rendered.
 
 ### Additions
 
